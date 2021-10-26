@@ -1,5 +1,6 @@
 import { InjectionKey } from 'vue'
 import { createStore, Store as VuexStore, CommitOptions, DispatchOptions } from 'vuex'
+import createPersistedState from "vuex-persistedstate";
 
 import { mutations, Mutations, Mutation } from './mutations'
 import { actions, Actions, Action } from './actions'
@@ -14,6 +15,12 @@ export const store = createStore({
   getters,
   mutations,
   actions,
+  plugins: [createPersistedState({
+      storage: window.localStorage,
+      key: 'user',
+      paths: ['user']
+    }
+  )],
 })
 
 export type Store = Omit<VuexStore<State>, 'getters' | 'commit' | 'dispatch'> & {

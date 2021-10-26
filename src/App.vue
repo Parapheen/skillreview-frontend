@@ -22,6 +22,7 @@ import { completeAuth } from './api/auth.api';
 import { useMessage } from 'naive-ui';
 import { ISteamResponse } from './interfaces/auth';
 import { useStore } from 'vuex';
+import router from './router';
 
 
 const route = useRoute()
@@ -46,14 +47,13 @@ watch(searchQuery, async (newSearchQuery) => {
         if (steamResponse.mode == 'id_res') {
             await completeAuth(steamResponse)
             .then((resp) => {
-                console.log(resp)
                 const token = resp.headers['authorization'].toString().split(' ').pop()
                 if (token) {
                     window.localStorage.setItem('token', token)
                 }
                 store.commit('SET_USER', resp.data)
-                console.log(store.state.user)
                 message.success('Successfully logged in!')
+                router.push('/me')
             })
             .catch((err) => {
                 console.log(err)

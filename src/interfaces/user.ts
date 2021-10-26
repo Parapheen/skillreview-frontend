@@ -3,5 +3,6 @@ export interface IUser {
     nickname: string
     avatar: string
     steamId: string
+    rank: string
     email?: string
 }

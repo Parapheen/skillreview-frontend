@@ -14,7 +14,19 @@
 </template>
 
 <script setup lang="ts">
+import { computed } from 'vue';
+import { useStore } from 'vuex';
+import router from '/@/router';
+
+const store = useStore()
+const isLoggedIn = computed(() => store.getters.isLoggedIn)
+
 const login = () => {
-    window.location.href = `${import.meta.env.VITE_APP_API_URL}/auth/steam?state=${window.location}`;
+    if (!isLoggedIn.value) {
+        window.location.href = `https://steamcommunity.com/openid/login?openid.claimed_id=http://specs.openid.net/auth/2.0/identifier_select&openid.identity=http://specs.openid.net/auth/2.0/identifier_select&openid.mode=checkid_setup&openid.ns=http://specs.openid.net/auth/2.0&openid.realm=${window.location.origin}/&openid.return_to=${window.location.origin}/`;
+    }
+    else {
+        router.push('/requests/new')
+    }
 }
 </script>

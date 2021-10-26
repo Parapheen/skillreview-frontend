@@ -7,6 +7,6 @@ export interface State {
 
 export const state: State = {
   debug: import.meta.env.MODE === 'development',
-  user: null
+  user: null,
 }
 
