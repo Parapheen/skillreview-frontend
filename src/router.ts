@@ -7,7 +7,7 @@ const routes = [
     path: '/',
     component: Landing,
     meta: {
-      title: 'Evaluate tasks with the team',
+      title: 'Review matches and level up your gaming skill',
     },
   },
 ]

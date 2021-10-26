@@ -1,14 +1,14 @@
 
 <template>
+<n-config-provider :theme="darkTheme">
   <n-loading-bar-provider>
     <n-message-provider>
       <n-dialog-provider>
-           <n-config-provider :theme="theme">
-                <slot></slot>
-           </n-config-provider>
+                <App/>
       </n-dialog-provider>
     </n-message-provider>
   </n-loading-bar-provider>
+</n-config-provider>
 </template>
 
 <script setup lang="ts">
@@ -20,10 +20,12 @@ import {
   NConfigProvider,
   darkTheme,
 } from 'naive-ui';
+import App from './App.vue'
+
 
 defineComponent({
-  name: 'AppProvider',
-  components: {
+    name: 'AppProvider',
+    components: {
     NMessageProvider,
     NLoadingBarProvider,
     NDialogProvider,
@@ -31,5 +33,4 @@ defineComponent({
   },
 });
 
-const theme = darkTheme;
 </script>
