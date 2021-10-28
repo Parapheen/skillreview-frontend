@@ -1,6 +1,7 @@
 import { InjectionKey } from 'vue'
 import { createStore, Store as VuexStore, CommitOptions, DispatchOptions } from 'vuex'
 import createPersistedState from "vuex-persistedstate";
+import Cookies from "js-cookie";
 
 import { mutations, Mutations, Mutation } from './mutations'
 import { actions, Actions, Action } from './actions'
@@ -16,8 +17,14 @@ export const store = createStore({
   mutations,
   actions,
   plugins: [createPersistedState({
-      storage: window.localStorage,
-      key: 'user',
+      storage: {
+        getItem: (key) => Cookies.get(key),
+        // Please see https://github.com/js-cookie/js-cookie#json, on how to handle JSON.
+        setItem: (key, value) =>
+          Cookies.set(key, value, { expires: 365, secure: true, sameSite: 'strict' }),
+        removeItem: (key) => Cookies.remove(key),
+      },
+      key: 'skillreview',
       paths: ['user']
     }
   )],

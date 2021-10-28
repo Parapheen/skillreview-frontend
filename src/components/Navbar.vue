@@ -5,25 +5,28 @@
                 <h3 style="font-weight: 200; letter-spacing: 0.05rem;">SkillReview</h3>
             </n-a>
             <n-button v-if="!isLoggedIn" @click="login" style="margin-right: 0;">Login with Steam</n-button>
-            <n-dropdown v-else @select="handleSelect" trigger="click" :options="options">
+            <n-dropdown v-else trigger="click" :options="options">
+            <n-badge :value="user.plan" :type="user.plan === 'basic' ? 'info' : 'success'">
                 <n-avatar
                     round
                     size="medium"
                     :src="user.avatar"
                     style="margin-right: 0; cursor: pointer;"
                 />
+            </n-badge>
             </n-dropdown>
         </n-space>
     </nav>
 </template>
 
 <script lang="ts" setup>
-import { NIcon, useMessage } from 'naive-ui';
+import { NIcon } from 'naive-ui';
 import { computed, h } from 'vue';
 import { useStore } from 'vuex';
 import {
   FingerPrint as FingerPrint,
   AddOutline as Add,
+  ShieldCheckmarkSharp as ShieldCheckmarkSharp,
 } from '@vicons/ionicons5'
 
 const store = useStore()
@@ -38,7 +41,7 @@ function renderIcon (icon: any) {
   return () => h(NIcon, null, { default: () => h(icon) })
 }
 
-const options = [
+const optionsFull = [
     {
     label: () =>
         h(
@@ -63,12 +66,21 @@ const options = [
             key: 'newRequest',
             icon: renderIcon(Add)
     },
+    {
+        label: () =>
+            h(
+                'a',
+                {
+                href: '/pricing/',
+                },
+                'Upgrade to Pro'
+            ),
+            key: 'upgrade',
+            icon: renderIcon(ShieldCheckmarkSharp)
+    },
 ]
-const message = useMessage()
 
-const handleSelect = (key: string) => {
-    message.info(key)
-}
+const options = computed(() => user.value.plan === 'basic' ? optionsFull : optionsFull.splice(2, 1) )
 </script>
 
 <style>

@@ -4,6 +4,7 @@ import { State } from './state'
 export type Getters = {
   isDebug(state: State): boolean,
   isLoggedIn(state: State): boolean,
+  reviewRequestMatch(state: State): string,
 }
 
 export const getters: GetterTree<State, State> & Getters = {
@@ -11,6 +12,9 @@ export const getters: GetterTree<State, State> & Getters = {
     return state.debug
   },
   isLoggedIn(state) {
-      return state.user?.steamId ? true : false
-  }
+      return state.user?.token ? true : false
+  },
+  reviewRequestMatch(state: State) {
+      return state.reviewRequest.matchId
+  },
 }

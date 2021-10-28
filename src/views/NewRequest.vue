@@ -1,56 +1,77 @@
 <template>
 <n-space vertical>
-    <n-input-group style="margin-top: 4rem; justify-content: center;">
-        <n-input :loading="loading" :style="{ width: '50%' }" clearable placeholder="Enter Match ID" />
-        <n-button @click="loading=!loading" type="primary" ghost>Search</n-button>
-    </n-input-group>
-    <n-p style="text-align: center; margin-top: 1rem;">Or</n-p>
-    <n-p style="text-align: center;">Choose from recent matches</n-p>
-    <n-grid v-if="matches.length > 0" :cols="4" style="margin: auto; margin-top: 2rem;" :x-gap="22" :y-gap="42" >
-        <n-gi v-for="match in matches" :key="match.match_id">
-        <n-card>
-            <n-thing>
-                <template #avatar>
-                <n-avatar round>
-                    <i :class="'d2mh hero-' + match.hero_id"/>
-                </n-avatar>
-                </template>
-                <template #header>
-                    <n-text :type="match.won_match ? 'success' : 'error'">
-                        {{match.won_match ? "Win" : "Lose"}} 
-                    </n-text>
-                </template>
-                <template #description> {{convertTimestamp(match.match_timestamp)}} </template>
-                <template #action>
-                    <n-button size="small" style="margin: auto;">
-                    Choose match
-                    </n-button>
-                </template>
-            </n-thing>
-        </n-card>
-        </n-gi>
-    </n-grid>
+    <n-steps size="medium" :current="current" :status="currentStatus" style="padding: 0 2rem; margin-top: 4rem; justify-content: center;">
+      <n-step
+        title="Choose match"
+      />
+      <n-step
+        title="Describe your perfomance"
+      />
+      <n-step
+        title="Review and submit your request"
+      />
+    </n-steps>
+    <n-space style="justify-content: center; margin-top: 1rem;">
+      <n-button-group>
+        <n-button @click="prev" :disabled="currentRef === 1">
+          <template #icon>
+            <n-icon>
+              <ArrowBackSharp />
+            </n-icon>
+          </template>
+        </n-button>
+        <n-button @click="next" :disabled="matchID === '' ? true : false">
+          <template #icon>
+            <n-icon>
+              <ArrowForwardSharp />
+            </n-icon>
+          </template>
+        </n-button>
+      </n-button-group>
+    </n-space>
+    <MatchPick v-if="current === 1" :matches="matches"/>
+    <PerfomanceDescription v-else-if="current === 2" />
 </n-space>
 </template>
 
 <script setup lang="ts">
-import { onMounted, Ref, ref } from 'vue';
-import {  useMessage } from 'naive-ui'
-import { getRecentMatches } from '../api/user';
+import { ref, Ref, defineComponent, onMounted, computed } from 'vue';
+import { useMessage } from 'naive-ui'
 import { useStore } from 'vuex';
-import { IMatch } from '/@/interfaces/match'
+import MatchPick from '../components/NewRequest/MatchPick.vue';
+import { getRecentMatches } from '/@/api/user.api';
+import { ArrowBackSharp, ArrowForwardSharp } from '@vicons/ionicons5'
+import { IMatch } from '../interfaces/match';
+import PerfomanceDescription from '../components/NewRequest/PerfomanceDescription.vue';
 
-const loading = ref(false)
+defineComponent({
+  components: {
+    ArrowBackSharp,
+    ArrowForwardSharp
+  }
+})
+
 const message = useMessage()
-const matches = ref([]) as Ref<IMatch[]>
 const store = useStore()
 
-const convertTimestamp = (timestamp: number) => {
-    return new Date(timestamp * 1000).toDateString()
+const currentRef = ref(1) as Ref<number>
+const currentStatus = ref('process')
+const current = currentRef
+const matches = ref([]) as Ref<IMatch[]>
+const matchID = computed(() => store.getters.reviewRequestMatch)
+
+
+const next = () => {
+    if (currentRef.value === 3) currentRef.value = 3
+    else currentRef.value++
+}
+const prev = () => {
+    if (currentRef.value === 1) currentRef.value = 1
+    else currentRef.value--
 }
 
 onMounted(async () => {
-    await getRecentMatches(store.state.user.id, window.localStorage.getItem("token"))
+    await getRecentMatches(store.state.user.id, store.state.user.token)
     .then((resp) => {
         matches.value = resp.data
     })

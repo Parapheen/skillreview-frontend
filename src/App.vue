@@ -6,7 +6,7 @@
         <n-layout-content content-style="max-width: 80vw; min-height: 100vh; margin: auto;">
             <router-view></router-view>
         </n-layout-content>
-        <n-layout-footer>
+        <n-layout-footer style="margin-top: 2rem;">
             <Footer/>
         </n-layout-footer>
     </n-layout>
@@ -48,15 +48,12 @@ watch(searchQuery, async (newSearchQuery) => {
             await completeAuth(steamResponse)
             .then((resp) => {
                 const token = resp.headers['authorization'].toString().split(' ').pop()
-                if (token) {
-                    window.localStorage.setItem('token', token)
-                }
+                resp.data.token = token
                 store.commit('SET_USER', resp.data)
                 message.success('Successfully logged in!')
                 router.push('/me')
             })
             .catch((err) => {
-                console.log(err)
                 message.error(err.message)
             })
         }

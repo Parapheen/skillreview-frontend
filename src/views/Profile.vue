@@ -10,7 +10,15 @@
       <n-gi>
         <n-statistic label="Rank" :value="store.state.user.rank" />
       </n-gi>
+      <n-gi>
+        <n-statistic label="Pricing plan" :value="store.state.user.plan" />
+      </n-gi>
     </n-grid>
+    <template #extra>
+        <n-button>
+            Refresh rank
+        </n-button>
+    </template>
     <template #avatar>
       <n-avatar
         :src="store.state.user.avatar"

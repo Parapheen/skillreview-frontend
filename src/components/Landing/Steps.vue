@@ -3,7 +3,7 @@
         <n-divider>
             <n-h2>How it works</n-h2>
         </n-divider>
-        <n-steps :vertical="width < 1054">
+        <n-steps style="padding: 2px;" :vertical="width < 1054">
             <n-step
                 title="Enter Dota 2 match ID"
                 description="Describe your game. What you planned, what went well and what bad."
