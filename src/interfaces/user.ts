@@ -1,3 +1,6 @@
+import { IReview } from "./review";
+import { IReviewRequest } from "./reviewRequest";
+
 export interface IUser {
     id: string
     nickname: string
@@ -8,4 +11,6 @@ export interface IUser {
     plan: 'basic' | 'pro'
     email?: string
     token?: string
+    review_requests?: Array<IReviewRequest>
+    reviews?: Array<IReview>
 }

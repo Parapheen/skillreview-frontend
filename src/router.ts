@@ -4,7 +4,10 @@ import { store } from './store'
 import Landing from "./views/Landing.vue"
 import Profile from "./views/Profile.vue"
 import NewRequest from "./views/NewRequest.vue"
+import Request from "./views/Request.vue"
+import AllRequests from "./views/AllRequests.vue"
 import UnAuthorized from "./views/UnAuthorized.vue"
+import Pricing from "./views/Pricing.vue"
 
 const routes = [
   {
@@ -39,6 +42,18 @@ const routes = [
           next('/unauthorized');
         }
       }
+  },
+  {
+    path: '/requests/:id',
+    component: Request,
+  },
+  {
+    path: '/requests',
+    component: AllRequests,
+  },
+  {
+    path: '/pricing',
+    component: Pricing,
   },
 ]
 

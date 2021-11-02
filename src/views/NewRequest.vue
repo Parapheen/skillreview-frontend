@@ -20,7 +20,7 @@
             </n-icon>
           </template>
         </n-button>
-        <n-button @click="next" :disabled="matchID === '' ? true : false">
+        <n-button @click="next" :disabled="nextDisabled">
           <template #icon>
             <n-icon>
               <ArrowForwardSharp />
@@ -31,18 +31,20 @@
     </n-space>
     <MatchPick v-if="current === 1" :matches="matches"/>
     <PerfomanceDescription v-else-if="current === 2" />
+    <SubmitRequest v-else-if="current === 3" />
 </n-space>
 </template>
 
 <script setup lang="ts">
 import { ref, Ref, defineComponent, onMounted, computed } from 'vue';
-import { useMessage } from 'naive-ui'
+import { useLoadingBar, useMessage } from 'naive-ui'
 import { useStore } from 'vuex';
 import MatchPick from '../components/NewRequest/MatchPick.vue';
 import { getRecentMatches } from '/@/api/user.api';
 import { ArrowBackSharp, ArrowForwardSharp } from '@vicons/ionicons5'
 import { IMatch } from '../interfaces/match';
 import PerfomanceDescription from '../components/NewRequest/PerfomanceDescription.vue';
+import SubmitRequest from '../components/NewRequest/SubmitRequest.vue';
 
 defineComponent({
   components: {
@@ -53,12 +55,26 @@ defineComponent({
 
 const message = useMessage()
 const store = useStore()
+const loading = useLoadingBar()
 
 const currentRef = ref(1) as Ref<number>
 const currentStatus = ref('process')
 const current = currentRef
 const matches = ref([]) as Ref<IMatch[]>
+
 const matchID = computed(() => store.getters.reviewRequestMatch)
+const matchRates = computed(() => store.getters.reviewRequestRates)
+const reviewDescription = computed(() => store.getters.reviewRequestDescription)
+
+const nextDisabled = computed(() => {
+    if (current.value === 1) {
+        return matchID.value === '' ? true : false
+    } else if (current.value === 2) {
+        if (!matchRates.value.includes(null) && reviewDescription.value !== '') {
+            return false
+        } else { return true }
+    } else if (current.value === 3) { return true}
+})
 
 
 const next = () => {
@@ -71,6 +87,7 @@ const prev = () => {
 }
 
 onMounted(async () => {
+    loading.start()
     await getRecentMatches(store.state.user.id, store.state.user.token)
     .then((resp) => {
         matches.value = resp.data
@@ -78,6 +95,7 @@ onMounted(async () => {
     .catch((err) => {
         message.error(err.message)
     })
+    loading.finish()
 })
 
 </script>

@@ -1,4 +1,5 @@
 <template>
+<section>
     <n-input-group style="margin-top: 4rem; justify-content: center;">
         <n-input v-model:value="searchMatchID" :loading="loading" :style="{ width: '50%' }" clearable placeholder="Enter Match ID" />
         <n-button @click="getUserMatch" type="primary" ghost>Search</n-button>
@@ -9,9 +10,17 @@
                 Match ID {{foundMatch.match_id}} 
             </template>
             <template #description> {{convertTimestamp(foundMatch.start_time)}} </template>
-            <n-data-table :columns="columns" :data="foundMatch.players" />
+            Please choose hero you played
+            <n-data-table
+                style="margin-top: 1rem;"
+                :row-key="(row: any) => row.hero_id" 
+                @update:checked-row-keys="handleCheck"
+                :default-checked-row-keys="[heroPlayed]"
+                :columns="columns"
+                :data="foundMatch.players"
+            />
             <template #header-extra>
-                <n-button @click="onChoose(foundMatch!.match_id.toString())" size="small" style="margin: auto;">
+                <n-button @click="onChoose(foundMatch!.match_id.toString(), heroPlayed)" size="small" style="margin: auto;">
                     Choose match
                 </n-button>
             </template>
@@ -35,7 +44,7 @@
                 </template>
                 <template #description> {{convertTimestamp(match.match_timestamp)}} </template>
                 <template #action>
-                    <n-button @click="onChoose(match.match_id.toString())" size="small" style="margin: auto;">
+                    <n-button @click="onChoose(match.match_id.toString(), match.hero_id.toString())" size="small" style="margin: auto;">
                     Choose match
                     </n-button>
                 </template>
@@ -43,6 +52,7 @@
         </n-card>
         </n-gi>
     </n-grid>
+</section>
 </template>
 
 <script setup lang="ts">
@@ -68,18 +78,26 @@ const store = useStore()
 const foundMatch = ref(null) as Ref<IMinimalMatch | null>
 const searchMatchID = ref("")
 const chosenMatchID = computed(() => store.getters.reviewRequestMatch)
+const heroPlayed = computed(() => store.getters.reviewRequestHeroPlayed)
 
 const convertTimestamp = (timestamp: number) => {
     return new Date(timestamp * 1000).toDateString()
 }
 
+const getUserHeroPlayed = (match: IMinimalMatch) => {
+    const players = match.players
+    const userHeroPlayed = players.filter((el) => el.account_id.toString() === store.state.user.steam32Id)
+    if (userHeroPlayed) {
+        store.commit('SET_HEROPLAYED', userHeroPlayed[0].hero_id)
+    }
+}
+
 const getUserMatch = async () => {
-    await getMatch(searchMatchID.value, store.state.user.token)
+    await getMatch(searchMatchID.value)
     .then((resp) => {
         loading.value = true
         foundMatch.value = resp.data
-        console.log(resp.data)
-        console.log(foundMatch.value)
+        getUserHeroPlayed(foundMatch.value)
     })
     .catch((err) => {
         message.error(err.message)
@@ -88,6 +106,14 @@ const getUserMatch = async () => {
 }
 
 const columns = [
+    {
+    type: 'selection',
+    disabled (row: any, index: number) {
+        if (heroPlayed.value) {
+            return row.hero_id !== heroPlayed.value
+        }
+    },
+    },
     {
       title: 'Hero',
       key: 'hero',
@@ -114,10 +140,16 @@ const columns = [
     },
 ]
 
-const onChoose = (matchId: string) => {
+const onChoose = (matchId: string, heroId: string) => {
     if (matchId === chosenMatchID.value) {
         matchId = ""
+        heroId = ""
     }
     store.commit('SET_MATCHID', matchId)
+    store.commit('SET_HEROPLAYED', heroId)
+}
+
+const handleCheck = (rowKeys: Array<string>) => {
+    store.commit('SET_HEROPLAYED', rowKeys[0])
 }
 </script>

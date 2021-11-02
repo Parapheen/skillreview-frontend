@@ -18,7 +18,7 @@
             />
             <n-step
                 title="Learn from reviews"
-                description="Accept critique and work with it. Reviewers recieve their money."
+                description="Accept critique and work with it."
             />
         </n-steps>
     </n-space>

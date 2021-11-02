@@ -4,7 +4,7 @@
         Improve your skill with <n-gradient-text type="success">SkillReview</n-gradient-text>
     </n-h1>
     <n-h4 style="text-align: center;">
-        Review games, learn from others and earn money. <br/>
+        Review games, learn from others and teach others. <br/>
         We only support Dota 2 for now.
     </n-h4>
     <n-button @click="login" size="large" ghost type="primary">

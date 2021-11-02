@@ -2,11 +2,13 @@
 <template>
 <n-config-provider :theme="darkTheme">
   <n-loading-bar-provider>
-    <n-message-provider>
-      <n-dialog-provider>
-                <App/>
-      </n-dialog-provider>
-    </n-message-provider>
+      <n-notification-provider>
+          <n-message-provider>
+              <n-dialog-provider>
+                  <App/>
+              </n-dialog-provider>
+        </n-message-provider>
+    </n-notification-provider>
   </n-loading-bar-provider>
 </n-config-provider>
 </template>

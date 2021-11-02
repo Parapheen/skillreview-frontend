@@ -23,6 +23,7 @@ import { useMessage } from 'naive-ui';
 import { ISteamResponse } from './interfaces/auth';
 import { useStore } from 'vuex';
 import router from './router';
+import { IUser } from './interfaces/user';
 
 
 const route = useRoute()

@@ -4,32 +4,37 @@
             <n-a href="/" style="text-decoration: none;">
                 <h3 style="font-weight: 200; letter-spacing: 0.05rem;">SkillReview</h3>
             </n-a>
-            <n-button v-if="!isLoggedIn" @click="login" style="margin-right: 0;">Login with Steam</n-button>
-            <n-dropdown v-else trigger="click" :options="options">
-            <n-badge :value="user.plan" :type="user.plan === 'basic' ? 'info' : 'success'">
-                <n-avatar
-                    round
-                    size="medium"
-                    :src="user.avatar"
-                    style="margin-right: 0; cursor: pointer;"
-                />
-            </n-badge>
-            </n-dropdown>
+            <div>
+                <n-button style="margin-right: 1rem;" type="info" ghost @click="router.push('/requests')">Review Skills</n-button>
+                <n-button v-if="!isLoggedIn" @click="login" style="margin-right: 0;">Login with Steam</n-button>
+                <n-dropdown v-else trigger="click" :options="options">
+                    <n-badge :value="user.plan" :type="user.plan === 'basic' ? 'info' : 'success'">
+                        <n-avatar
+                            round
+                            size="medium"
+                            :src="user.avatar"
+                            style="margin-right: 0; cursor: pointer;"
+                        />
+                    </n-badge>
+                </n-dropdown>
+            </div>
         </n-space>
     </nav>
 </template>
 
 <script lang="ts" setup>
 import { NIcon } from 'naive-ui';
-import { computed, h } from 'vue';
+import { computed, h, resolveComponent } from 'vue';
 import { useStore } from 'vuex';
 import {
   FingerPrint as FingerPrint,
   AddOutline as Add,
   ShieldCheckmarkSharp as ShieldCheckmarkSharp,
 } from '@vicons/ionicons5'
+import { useRouter } from 'vue-router';
 
 const store = useStore()
+const router = useRouter()
 
 const isLoggedIn = computed(() => store.getters.isLoggedIn)
 const user = computed(() => store.state.user)
@@ -57,7 +62,7 @@ const optionsFull = [
     {
         label: () =>
             h(
-                'a',
+                resolveComponent('router-link'),
                 {
                 href: '/requests/new',
                 },
@@ -69,7 +74,7 @@ const optionsFull = [
     {
         label: () =>
             h(
-                'a',
+                resolveComponent('router-link'),
                 {
                 href: '/pricing/',
                 },
