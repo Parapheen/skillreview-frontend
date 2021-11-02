@@ -31,7 +31,7 @@ import {
   AddOutline as Add,
   ShieldCheckmarkSharp as ShieldCheckmarkSharp,
 } from '@vicons/ionicons5'
-import { useRouter } from 'vue-router';
+import { useRouter, RouterLink } from 'vue-router';
 
 const store = useStore()
 const router = useRouter()
@@ -50,11 +50,13 @@ const optionsFull = [
     {
     label: () =>
         h(
-            'a',
+            RouterLink,
             {
-            href: '/me',
+                to: {
+                    path: '/me/',
+                }
             },
-            'Profile'
+            { default: () => 'Profile' }
         ),
         key: 'profile',
         icon: renderIcon(FingerPrint)
@@ -62,11 +64,13 @@ const optionsFull = [
     {
         label: () =>
             h(
-                resolveComponent('router-link'),
+                RouterLink,
                 {
-                href: '/requests/new',
+                    to: {
+                        path: '/requests/new',
+                    },
                 },
-                'New match request'
+                { default: () => 'New match request' }
             ),
             key: 'newRequest',
             icon: renderIcon(Add)
@@ -74,11 +78,13 @@ const optionsFull = [
     {
         label: () =>
             h(
-                resolveComponent('router-link'),
-                {
-                href: '/pricing/',
+                RouterLink,
+                 {
+                    to: {
+                        path: '/pricing/',
+                    },
                 },
-                'Upgrade to Pro'
+                { default: () => 'Upgrade to Pro' }
             ),
             key: 'upgrade',
             icon: renderIcon(ShieldCheckmarkSharp)
