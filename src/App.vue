@@ -32,32 +32,11 @@ const message = useMessage()
 const store = useStore()
 
 watch(searchQuery, async (newSearchQuery) => {
-    if (newSearchQuery["openid.claimed_id"]) {
-        const steamResponse: ISteamResponse = {
-            assocHandle: route.query["openid.assoc_handle"]!.toString(),
-            claimedId: route.query["openid.claimed_id"]!.toString(),
-            identity: route.query["openid.identity"]!.toString(),
-            mode: route.query["openid.mode"]!.toString(),
-            ns: route.query["openid.ns"]!.toString(),
-            opEndpoint: route.query["openid.op_endpoint"]!.toString(),
-            responseNonce: route.query["openid.response_nonce"]!.toString(),
-            returnTo: route.query["openid.return_to"]!.toString(),
-            sig: route.query["openid.sig"]!.toString(),
-            signed: route.query["openid.signed"]!.toString(),
-        }
-        if (steamResponse.mode == 'id_res') {
-            await completeAuth(steamResponse)
-            .then((resp) => {
-                const token = resp.headers['authorization'].toString().split(' ').pop()
-                resp.data.token = token
-                store.commit('SET_USER', resp.data)
-                message.success('Successfully logged in!')
-                router.push('/me')
-            })
-            .catch((err) => {
-                message.error(err.message)
-            })
-        }
+    if (newSearchQuery["accessToken"]) {
+        const token = newSearchQuery['accessToken'].toString()
+        store.commit('SET_TOKEN', token)
+        message.success('Successfully logged in!')
+        router.push('/me')
     }
 })
 

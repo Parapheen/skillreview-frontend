@@ -5,7 +5,7 @@ import { IUser } from "../interfaces/user";
 
 export interface State {
   debug: boolean
-  user: IUser | null
+  user: IUser
   reviewRequest: IReviewRequest
   matchInfo: IMinimalMatch | null
   review: IReview
@@ -13,7 +13,16 @@ export interface State {
 
 export const state: State = {
   debug: import.meta.env.MODE === 'development',
-  user: null,
+  user: {
+      id: "",
+      avatar: "",
+      token: "",
+      nickname: "",
+      steam32Id: "",
+      steam64Id: "",
+      rank: "",
+      plan: "basic",
+  },
   reviewRequest: {
       description: "",
       match_id: "",

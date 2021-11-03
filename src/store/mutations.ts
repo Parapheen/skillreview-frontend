@@ -5,6 +5,7 @@ import { IMinimalMatch } from '../interfaces/match';
 
 export enum Mutation {
   SET_USER = 'SET_USER',
+  SET_TOKEN = 'SET_TOKEN',
   SET_MATCH_INFO = 'SET_MATCH_INFO',
   SET_MATCHID = 'SET_MATCHID',
   SET_HEROPLAYED = 'SET_HEROPLAYED',
@@ -20,7 +21,8 @@ export enum Mutation {
 }
 
 export type Mutations<S = State> = {
-  [Mutation.SET_USER](state: S, payload: IUser | null): void,
+  [Mutation.SET_USER](state: S, payload: IUser): void,
+  [Mutation.SET_TOKEN](state: S, payload: string): void,
   [Mutation.SET_RR_ID](state: S, payload: string | undefined): void,
   [Mutation.SET_MATCH_INFO](state: S, payload: IMinimalMatch | null): void,
   [Mutation.SET_MATCHID](state: S, payload: string | null): void,
@@ -36,8 +38,11 @@ export type Mutations<S = State> = {
 }
 
 export const mutations: MutationTree<State> & Mutations = {
-  [Mutation.SET_USER](state: State, payload: IUser | null) {
+  [Mutation.SET_USER](state: State, payload: IUser) {
 	state.user = payload
+  },
+  [Mutation.SET_TOKEN](state: State, payload: string) {
+	state.user.token = payload
   },
   [Mutation.SET_RR_ID](state: State, payload: string | undefined) {
 	state.review.review_request_uuid = payload

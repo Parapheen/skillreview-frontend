@@ -22,7 +22,7 @@ export const getters: GetterTree<State, State> & Getters = {
     return state.debug
   },
   isLoggedIn(state) {
-      return state.user?.token ? true : false
+      return state.user.token ? true : false
   },
   reviewRequestMatch(state: State) {
       return state.reviewRequest.match_id

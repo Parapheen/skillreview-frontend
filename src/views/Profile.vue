@@ -93,6 +93,8 @@ onMounted(async () => {
     await getUserProfile(store.state.user.token)
     .then((resp) => {
         user.value = resp.data
+        user.value.token = store.state.user.token
+        store.commit('SET_USER', user.value)
     })
     .catch((err) => {
         message.error(err.message)
