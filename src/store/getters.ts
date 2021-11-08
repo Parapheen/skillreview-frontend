@@ -12,7 +12,7 @@ export type Getters = {
   reviewRequestRateOverall(state: State): number | null,
   reviewRequestRates(state: State): Array<number | null>,
   reviewRates(state: State): Array<number | null>,
-  reviewRequestHeroPlayed(state: State): string,
+  reviewRequestHeroPlayed(state: State): number,
   getUserRank(state: State): string,
   getUser(state: State): IUser | null,
 }
