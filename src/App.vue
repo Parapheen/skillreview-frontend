@@ -17,16 +17,13 @@ import { defineComponent, watch, computed } from 'vue';
 import AppProvider from '/@/AppProvider.vue';
 import NavBar from '/@/components/Navbar.vue';
 import Footer from '/@/components/Footer.vue';
-import { useRoute } from 'vue-router';
-import { completeAuth } from './api/auth.api';
+import { useRoute, useRouter } from 'vue-router';
 import { useMessage } from 'naive-ui';
-import { ISteamResponse } from './interfaces/auth';
 import { useStore } from 'vuex';
-import router from './router';
-import { IUser } from './interfaces/user';
 
 
 const route = useRoute()
+const router = useRouter()
 const searchQuery = computed(() => route.query)
 const message = useMessage()
 const store = useStore()

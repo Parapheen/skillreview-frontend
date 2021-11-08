@@ -9,4 +9,4 @@ export const getRecentMatches = async (id: string | undefined, token: string | n
   .get(`${END_POINT}/${id}/matches`, {headers: {'Authorization': `Bearer ${token}`}});
 
 export const getUserProfile = async (token: string | null): Promise<AxiosResponse<IUser>> => apiClient
-  .get(`${END_POINT}/profile`, {headers: {'Authorization': `Bearer ${token}`}})
+  .get(`${END_POINT}/me`, {headers: {'Authorization': `Bearer ${token}`}})

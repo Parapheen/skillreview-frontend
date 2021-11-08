@@ -1,10 +1,10 @@
 <template>
-    <n-card style="margin: 2rem auto 0 auto; width: 75%; cursor: pointer;" @mouseover="hovered = true" @mouseleave="hovered = false" :style="hovered ? 'border-color: #63e2b7;' : ''" @click="navToRequest(reviewRequest.id!)">
+    <n-card style="margin: 2rem auto 0 auto; width: 75%;" :style="{cursor: cursorType}" :class="hovered && isActive ? 'card-hovered': ''" @mouseover="hovered = true" @mouseleave="hovered = false" @click="isActive ? navToRequest(reviewRequest.id!) : () => {}">
         <n-thing content-indented>
         <template #avatar>
             <n-avatar>
                 <n-icon round>
-                    <i :class="'d2mh hero-' + reviewRequest.hero_played"/>
+                    <i :class="'d2mh hero-' + reviewRequest.hero_played.toString()"/>
                 </n-icon>
             </n-avatar>
         </template>
@@ -55,10 +55,16 @@ const props = defineProps({
     author: {
         type: Object as () => IUser | null,
         required: true
-    }
+    },
+	active: {
+		type: Boolean,
+		required: true
+	}
 })
 
 const reviewRequest = computed(() => props.reviewRequest)
+const cursorType = computed(() => props.active ? 'pointer': 'default')
+const isActive = computed(() => props.active)
 
 const router = useRouter()
 
@@ -69,3 +75,12 @@ const navToRequest = (id: string) => {
 }
 
 </script>
+
+
+<style scoped>
+
+.card-hovered {
+    border-color: #63e2b7;
+}
+
+</style>

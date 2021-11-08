@@ -7,7 +7,7 @@ export interface IReviewRequest {
     match_id: string
     author_uid: string
     description: string
-    hero_played: string
+    hero_played: number
     self_rate_overall: number | null
     self_rate_laning: number | null
     self_rate_teamfights: number | null

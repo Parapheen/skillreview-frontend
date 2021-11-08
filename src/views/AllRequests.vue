@@ -2,7 +2,7 @@
 <section>
     <n-space vertical>
         <div v-for="request in reviewRequests">
-            <ReviewRequestCard :reviewRequest="request" :author="request.author!" />
+            <ReviewRequestCard active :reviewRequest="request" :author="request.author!" />
         </div>
     </n-space>
 </section>

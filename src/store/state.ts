@@ -30,7 +30,7 @@ export const state: State = {
       self_rate_laning: null,
       self_rate_teamfights: null,
       self_rate_overall: null,
-      hero_played: "",
+      hero_played: 0,
       author_rank: "",
   },
   review: {

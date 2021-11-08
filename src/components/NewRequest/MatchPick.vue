@@ -44,7 +44,7 @@
                 </template>
                 <template #description> {{convertTimestamp(match.match_timestamp)}} </template>
                 <template #action>
-                    <n-button @click="onChoose(match.match_id.toString(), match.hero_id.toString())" size="small" style="margin: auto;">
+                    <n-button @click="onChoose(match.match_id.toString(), match.hero_id)" size="small" style="margin: auto;">
                     Choose match
                     </n-button>
                 </template>
@@ -140,10 +140,10 @@ const columns = [
     },
 ]
 
-const onChoose = (matchId: string, heroId: string) => {
+const onChoose = (matchId: string, heroId: number) => {
     if (matchId === chosenMatchID.value) {
         matchId = ""
-        heroId = ""
+        heroId = 0
     }
     store.commit('SET_MATCHID', matchId)
     store.commit('SET_HEROPLAYED', heroId)

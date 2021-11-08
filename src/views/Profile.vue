@@ -41,7 +41,7 @@
        <n-tab-pane name="Requests" tab="Submitted Requests">
           <section style="margin-top: 2rem;">
               <div v-if="user && user?.review_requests!.length > 0" v-for="request in user?.review_requests">
-                <ReviewRequestCard :reviewRequest="request" :author="user" />
+                <ReviewRequestCard active :reviewRequest="request" :author="user" />
               </div>
               <n-empty v-else-if="user && user.review_requests?.length == 0" description="You have no requests yet">
                 <template #extra>

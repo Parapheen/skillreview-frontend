@@ -17,6 +17,7 @@ defineComponent({
     components: {
         Steps,
         Jumbo,
+        CTA,
     }
 })
 

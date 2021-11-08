@@ -26,7 +26,7 @@ export type Mutations<S = State> = {
   [Mutation.SET_RR_ID](state: S, payload: string | undefined): void,
   [Mutation.SET_MATCH_INFO](state: S, payload: IMinimalMatch | null): void,
   [Mutation.SET_MATCHID](state: S, payload: string | null): void,
-  [Mutation.SET_HEROPLAYED](state: S, payload: string | null): void,
+  [Mutation.SET_HEROPLAYED](state: S, payload: number | null): void,
   [Mutation.SET_DESCRIPTION](state: S, payload: string | null): void,
   [Mutation.SET_REVIEW_DESCRIPTION](state: S, payload: string | null): void,
   [Mutation.SET_SELF_RATE_LANING](state: S, payload: number | null): void,
@@ -53,7 +53,7 @@ export const mutations: MutationTree<State> & Mutations = {
   [Mutation.SET_MATCHID](state: State, payload: string) {
 	state.reviewRequest.match_id = payload
   },
-  [Mutation.SET_HEROPLAYED](state: State, payload: string) {
+  [Mutation.SET_HEROPLAYED](state: State, payload: number) {
 	state.reviewRequest.hero_played = payload
   },
   [Mutation.SET_DESCRIPTION](state: State, payload: string) {

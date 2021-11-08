@@ -1,6 +1,6 @@
 <template>
 <section style="display: flex; justify-content: center; flex-direction: column;">
-    <ReviewRequestCard :reviewRequest="reviewRequest" :author="store.state.user" />
+    <ReviewRequestCard :active="false" :reviewRequest="reviewRequest" :author="store.state.user" />
     <n-button @click="submitReviewRequest" style="width: 75%; margin: auto;">
         Submit
     </n-button>
