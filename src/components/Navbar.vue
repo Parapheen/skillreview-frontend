@@ -115,6 +115,10 @@ const send = async () => {
     }
     await updateUser(user.value.id, user.value.token, update)
         .then((resp) => {
+            var userProperties = {
+                email: resp.data.email,
+            };
+            amplitude.getInstance().setUserProperties(userProperties)
             message.success('Successfully added email!')
             resp.data.token = user.value.token
             store.commit('SET_USER', resp.data)

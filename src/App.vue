@@ -48,9 +48,11 @@ defineComponent({
 });
 
 // analytics
-var identify = new amplitude.Identify().set('email', user.value.email);
-amplitude.getInstance().identify(identify);
-amplitude.getInstance().setUserId(user.value.id);
+if (user.value.id) {
+    var identify = new amplitude.Identify().set('email', user.value.email);
+    amplitude.getInstance().identify(identify);
+    amplitude.getInstance().setUserId(user.value.id);
+}
 </script>
 
 <style scoped>
