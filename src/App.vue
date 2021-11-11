@@ -48,7 +48,6 @@ defineComponent({
 });
 
 // analytics
-amplitude.getInstance().logEvent('session-start');
 var identify = new amplitude.Identify().set('email', user.value.email);
 amplitude.getInstance().identify(identify);
 amplitude.getInstance().setUserId(user.value.id);
