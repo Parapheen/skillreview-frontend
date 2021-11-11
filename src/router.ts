@@ -38,7 +38,6 @@ const routes = [
     component: NewRequest,
     beforeEnter(to: any, from: any, next: any) {
         if (store.getters.isLoggedIn) {
-          amplitude.getInstance().logEvent('new-request', { 'source': from });
           next()
         } else {
           next('/unauthorized');

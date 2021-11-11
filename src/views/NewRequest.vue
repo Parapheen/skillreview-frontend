@@ -107,4 +107,6 @@ onMounted(async () => {
     loading.finish()
 })
 
+amplitude.getInstance().logEvent('new-request');
+
 </script>
