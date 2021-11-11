@@ -272,4 +272,5 @@ const closeSubmissions = async () => {
     })
     loading.finish()
 }
+amplitude.getInstance().logEvent('request-page');
 </script>

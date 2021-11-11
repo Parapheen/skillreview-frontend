@@ -11,6 +11,7 @@ import { defineComponent } from '@vue/runtime-core';
 import Steps from '../components/Landing/Steps.vue';
 import Jumbo from '../components/Landing/Jumbo.vue';
 import CTA from '../components/Landing/CTA.vue';
+import amplitude from 'amplitude-js';
 
 defineComponent({
     name: "Landing",
@@ -20,5 +21,7 @@ defineComponent({
         CTA,
     }
 })
+
+amplitude.getInstance().logEvent('landing');
 
 </script>

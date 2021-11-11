@@ -41,7 +41,7 @@
        <n-tab-pane name="Requests" tab="Submitted Requests">
           <section style="margin-top: 2rem;">
               <div v-if="user && user?.review_requests!.length > 0" v-for="request in user?.review_requests">
-                <ReviewRequestCard active :reviewRequest="request" :author="user" />
+                <ReviewRequestCard @click="amplitude.getInstance().logEvent('request-card-click-from-profile');" active :reviewRequest="request" :author="user" />
               </div>
               <n-empty v-else-if="user && user.review_requests?.length == 0" description="You have no requests yet">
                 <template #extra>
@@ -53,7 +53,7 @@
       <n-tab-pane name="Reviews" tab="Your reviews">
           <section style="margin-top: 2rem;">
               <div v-if="user && user?.reviews!.length > 0" v-for="review in user?.reviews">
-                <ReviewCard :isNavToRequest="true" :review="review" :author="user"/>
+                <ReviewCard @click="amplitude.getInstance().logEvent('review-card-click-from-profile');" :isNavToRequest="true" :review="review" :author="user"/>
               </div>
               <n-empty v-else-if="user && user.reviews?.length == 0" description="You have no reviews yet">
                 <template #extra>

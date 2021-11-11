@@ -2,7 +2,7 @@
 <section>
     <n-space vertical>
         <div v-for="request in reviewRequests">
-            <ReviewRequestCard active :reviewRequest="request" :author="request.author!" />
+            <ReviewRequestCard @click="amplitude.getInstance().logEvent('request-card-click-from-all-requests');" active :reviewRequest="request" :author="request.author!" />
         </div>
     </n-space>
 </section>
@@ -14,6 +14,7 @@ import { onMounted, ref, Ref } from 'vue';
 import { getReviewRequests } from '../api/reviewRequests.api';
 import { IReviewRequest } from '../interfaces/reviewRequest';
 import ReviewRequestCard from '../components/ReviewRequestCard.vue';
+import amplitude from 'amplitude-js';
 
 const reviewRequests = ref(null) as Ref<Array<IReviewRequest> | null>
 
@@ -31,5 +32,7 @@ onMounted(async () => {
     })
     loading.finish()
 })
+
+amplitude.getInstance().logEvent('all-requests');
 
 </script>

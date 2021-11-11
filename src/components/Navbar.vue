@@ -44,6 +44,7 @@ import {
 import { useRouter, RouterLink } from 'vue-router';
 import { IUserUpdate } from '../interfaces/user';
 import { updateUser } from '../api/user.api';
+import amplitude from 'amplitude-js';
 
 const store = useStore()
 const router = useRouter()
@@ -53,6 +54,7 @@ const userEmail = ref("")
 const isLoggedIn = computed(() => store.getters.isLoggedIn)
 const user = computed(() => store.getters.getUser)
 const login = () => {
+    amplitude.getInstance().logEvent('login-click');
     window.location.href = `${import.meta.env.VITE_APP_API_URL}/auth/steam`;
 }
 
