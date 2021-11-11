@@ -39,7 +39,18 @@ export type Mutations<S = State> = {
 
 export const mutations: MutationTree<State> & Mutations = {
   [Mutation.SET_USER](state: State, payload: IUser) {
-	state.user = payload
+    let userInCookie: IUser = {
+        email: payload.email,
+        avatar: payload.avatar,
+        id: payload.id,
+        steam64Id: payload.steam64Id,
+        steam32Id: payload.steam32Id,
+        nickname: payload.nickname,
+        rank: payload.rank,
+        plan: payload.plan,
+        token: payload.token,
+    }
+	state.user = userInCookie
   },
   [Mutation.SET_TOKEN](state: State, payload: string) {
 	state.user.token = payload

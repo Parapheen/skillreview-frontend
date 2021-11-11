@@ -20,6 +20,7 @@ import Footer from '/@/components/Footer.vue';
 import { useRoute, useRouter } from 'vue-router';
 import { useMessage } from 'naive-ui';
 import { useStore } from 'vuex';
+import amplitude from 'amplitude-js';
 
 
 const route = useRoute()
@@ -27,6 +28,7 @@ const router = useRouter()
 const searchQuery = computed(() => route.query)
 const message = useMessage()
 const store = useStore()
+const user = computed(() => store.getters.getUser)
 
 watch(searchQuery, async (newSearchQuery) => {
     if (newSearchQuery["accessToken"]) {
@@ -45,6 +47,11 @@ defineComponent({
     },
 });
 
+// analytics
+amplitude.getInstance().logEvent('session-start');
+var identify = new amplitude.Identify().set('email', user.value.email);
+amplitude.getInstance().identify(identify);
+amplitude.getInstance().setUserId(user.value.id);
 </script>
 
 <style scoped>

@@ -1,38 +1,42 @@
 <template>
-    <n-card style="margin: 2rem auto 0 auto; width: 75%" :style="{cursor: cursorType}" :class="hovered && isNavToRequest ? 'card-hovered': ''" @mouseover="hovered = true" @mouseleave="hovered = false" @click="isNavToRequest ? navToRequest(review.review_request_uuid!) : () => {}" >
+    <n-card style="margin: 2rem auto 0 auto; width: 75%" :style="{cursor: cursorType, width: windowWidth < 1024 ? '100%' : '75%'}" :class="hovered && isNavToRequest ? 'card-hovered': ''" @mouseover="hovered = true" @mouseleave="hovered = false" @click="isNavToRequest ? navToRequest(review.review_request_uuid!) : () => {}" >
     <n-spin :show="show">
-        <n-thing content-indented>
+        <n-thing>
         <template #avatar>
             <n-avatar
                 :src="author?.avatar"
             />
         </template>
-        <template #header> {{ author?.nickname }} </template>
+        <template #header>
+            <div class="author" style="display: flex; flex-direction: column;">
+                {{ author?.nickname }}
+                <n-text depth="3">{{ author?.rank }}</n-text>
+            </div>
+        </template>
         <template #header-extra>
-            {{ author?.rank }}
             <n-popover trigger="hover">
                 <template #trigger>
-                    <n-tag v-if="review.state" style="margin-left: 1rem;" :type="cardType">{{ review.state?.toUpperCase() }}</n-tag> 
+                    <n-tag :size="windowWidth < 1024 ? 'small': ''" v-if="review.state" style="margin-left: 3px;" :type="cardType">{{ review.state?.toUpperCase() }}</n-tag> 
                 </template>
                 <span>{{tagExplanation}}</span>
             </n-popover>
         </template>
         {{ review.description }}
         <template #footer>
-        <n-grid :cols="3">
-            <n-gi style="display: flex; flex-direction: column; align-items: center;">
+        <n-grid cols="3" item-responsive responsive="screen">
+            <n-gi span="3 s:3 m:1" style="display: flex; flex-direction: column; align-items: center;">
                 <n-text>
                     Laning stage
                 </n-text>
                 <n-rate readonly :value="review.rate_laning" />
             </n-gi>
-            <n-gi style="display: flex; flex-direction: column; align-items: center;">
+            <n-gi span="3 s:3 m:1" style="display: flex; flex-direction: column; align-items: center;">
                 <n-text>
                     Teamfighting
                 </n-text>
                 <n-rate readonly :value="review.rate_teamfights" />
             </n-gi>
-            <n-gi style="display: flex; flex-direction: column; align-items: center;">
+            <n-gi span="3 s:3 m:1" style="display: flex; flex-direction: column; align-items: center;">
                 <n-text>
                     Overall perfomance
                 </n-text>
@@ -51,12 +55,23 @@
 
 <script setup lang="ts">
 import { useMessage } from 'naive-ui';
-import { computed, ref } from 'vue'
+import { computed, ref, onMounted } from 'vue'
 import { useRouter } from 'vue-router';
 import { useStore } from 'vuex';
 import { updateReview } from '../api/review.api';
 import { IReview, IReviewUpdate } from '../interfaces/review';
 import { IUser } from '../interfaces/user';
+
+let windowWidth = ref(0)
+
+const handleResize = () => {
+    windowWidth.value = window.innerWidth;
+}
+
+onMounted(() => {
+     window.addEventListener('resize', handleResize);
+     windowWidth.value = window.innerWidth;
+})
 
 const props = defineProps({
 	review: {

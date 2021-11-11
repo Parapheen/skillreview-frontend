@@ -45,6 +45,7 @@ import { ArrowBackSharp, ArrowForwardSharp } from '@vicons/ionicons5'
 import { IMatch } from '../interfaces/match';
 import PerfomanceDescription from '../components/NewRequest/PerfomanceDescription.vue';
 import SubmitRequest from '../components/NewRequest/SubmitRequest.vue';
+import amplitude from 'amplitude-js';
 
 defineComponent({
   components: {
@@ -78,12 +79,20 @@ const nextDisabled = computed(() => {
 
 
 const next = () => {
-    if (currentRef.value === 3) currentRef.value = 3
-    else currentRef.value++
+    if (currentRef.value === 3) { currentRef.value = 3 }
+    else {
+        if (currentRef.value === 1) {
+            amplitude.getInstance().logEvent('match-selected');
+        }
+        else if (currentRef.value === 2) {
+            amplitude.getInstance().logEvent('self-review-written');
+        }
+        currentRef.value++
+    }
 }
 const prev = () => {
     if (currentRef.value === 1) currentRef.value = 1
-    else currentRef.value--
+    else { currentRef.value-- }
 }
 
 onMounted(async () => {

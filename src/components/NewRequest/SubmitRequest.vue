@@ -14,6 +14,7 @@ import ReviewRequestCard from '../ReviewRequestCard.vue';
 import { createReviewRequest } from '/@/api/reviewRequests.api';
 import { useMessage } from 'naive-ui';
 import { useRouter } from 'vue-router';
+import amplitude from 'amplitude-js';
 
 const store = useStore()
 const message = useMessage()
@@ -33,9 +34,9 @@ const reviewRequest: IReviewRequest = {
 const submitReviewRequest = async () => {
     await createReviewRequest(reviewRequest, store.state.user.token)
     .then((resp) => {
+        amplitude.getInstance().logEvent('request-submitted');
         message.success("Got ya!")
         router.push(`/requests/${resp.data.id}`)
-        console.log(resp)
     })
     .catch((err) => {
         message.error(err.message)

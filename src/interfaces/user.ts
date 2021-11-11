@@ -14,3 +14,10 @@ export interface IUser {
     review_requests?: Array<IReviewRequest>
     reviews?: Array<IReview>
 }
+
+export interface IUserUpdate {
+    nickname?: string
+    rank?: string
+    plan?: 'basic' | 'pro'
+    email?: string
+}

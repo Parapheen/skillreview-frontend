@@ -1,16 +1,16 @@
 <template>
  <n-page-header style="margin-top: 4rem;" subtitle="Statistics" :title="user?.nickname">
-    <n-grid :cols="4">
-      <n-gi>
+    <n-grid cols="4" item-responsive responsive="screen">
+      <n-gi span="2 s:2 m:1">
         <n-statistic label="Skill Requests" :value="user?.review_requests ? user?.review_requests.length : 0" />
       </n-gi>
-      <n-gi>
+      <n-gi span="2 s:2 m:1">
         <n-statistic label="Skill Reviews" :value="user?.reviews ? user?.reviews.length : 0" />
       </n-gi>
-      <n-gi>
+      <n-gi span="2 s:2 m:1">
         <n-statistic label="Rank" :value="user?.rank" />
       </n-gi>
-      <n-gi>
+      <n-gi span="2 s:2 m:1">
         <n-statistic label="Pricing plan" :value="user?.plan">
             <template #prefix>
                 <n-tooltip trigger="hover">
@@ -75,6 +75,7 @@ import ReviewRequestCard from '../components/ReviewRequestCard.vue';
 import { useRouter } from 'vue-router';
 import { InformationCircleOutline } from '@vicons/ionicons5'
 import ReviewCard from '../components/ReviewCard.vue';
+import amplitude from 'amplitude-js';
 
 defineComponent({
   components: {
@@ -94,6 +95,11 @@ onMounted(async () => {
     .then((resp) => {
         user.value = resp.data
         user.value.token = store.state.user.token
+        var userProperties = {
+            reviews: resp.data.reviews?.length,
+            requests: resp.data.review_requests?.length
+        };
+        amplitude.getInstance().setUserProperties(userProperties);
         store.commit('SET_USER', user.value)
     })
     .catch((err) => {

@@ -8,6 +8,7 @@ import Request from "./views/Request.vue"
 import AllRequests from "./views/AllRequests.vue"
 import UnAuthorized from "./views/UnAuthorized.vue"
 import Pricing from "./views/Pricing.vue"
+import amplitude from 'amplitude-js'
 
 const routes = [
   {
@@ -37,6 +38,7 @@ const routes = [
     component: NewRequest,
     beforeEnter(to: any, from: any, next: any) {
         if (store.getters.isLoggedIn) {
+          amplitude.getInstance().logEvent('new-request', { 'source': from });
           next()
         } else {
           next('/unauthorized');

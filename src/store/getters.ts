@@ -1,4 +1,5 @@
 import { GetterTree } from 'vuex'
+import { IReview } from '../interfaces/review'
 import { IUser } from '../interfaces/user'
 import { State } from './state'
 
@@ -13,8 +14,10 @@ export type Getters = {
   reviewRequestRates(state: State): Array<number | null>,
   reviewRates(state: State): Array<number | null>,
   reviewRequestHeroPlayed(state: State): number,
+  getReview(state: State): IReview | null,
   getUserRank(state: State): string,
   getUser(state: State): IUser | null,
+  getToken(state: State): string | null,
 }
 
 export const getters: GetterTree<State, State> & Getters = {
@@ -65,6 +68,18 @@ export const getters: GetterTree<State, State> & Getters = {
   getUser(state: State) {
       if (state.user) {
         return state.user
+      }
+      return null
+  },
+  getReview(state: State) {
+      if (state.review) {
+        return state.review
+      }
+      return null
+  },
+  getToken(state: State) {
+      if (state.user.token) {
+        return state.user.token
       }
       return null
   }

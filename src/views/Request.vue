@@ -18,27 +18,33 @@
             Do you really want to close submissions to review your Match?
         </n-popconfirm>
     </n-space>
-     <n-page-header style="margin-top: 1rem;" :subtitle="reviewRequest?.author_rank" :title="reviewRequest?.author?.nickname">
-        <n-grid :cols="3">
-          <n-gi>
+     <n-page-header style="margin-top: 1rem;">
+        <template #title>
+            <div class="author" style="display: flex; flex-direction: column;">
+                {{ reviewRequest?.author?.nickname }}
+                <n-text depth="3">{{ reviewRequest?.author_rank }}</n-text>
+            </div>
+        </template>
+        <n-grid cols="3" item-responsive responsive="screen">
+          <n-gi span="3 s:3 m:1">
             <n-statistic label="Laning stage rate by author" >
                 <n-rate readonly :value="reviewRequest?.self_rate_laning" />
             </n-statistic>
           </n-gi>
-          <n-gi>
+          <n-gi span="3 s:3 m:1">
              <n-statistic label="Team fighting rate by author" >
                 <n-rate readonly :value="reviewRequest?.self_rate_teamfights" />
             </n-statistic>
           </n-gi>
-          <n-gi>
+          <n-gi span="3 s:3 m:1">
              <n-statistic label="Overall rate by author" >
                 <n-rate readonly :value="reviewRequest?.self_rate_overall" />
             </n-statistic>
           </n-gi>
         </n-grid>
         <template #extra>
-            Match ID {{reviewRequest?.match_id}}
-            <n-button circle style="margin-left: 1rem;" @click="copyMatchID(reviewRequest!.match_id)">
+            MatchID {{reviewRequest?.match_id}}
+            <n-button circle style="margin-left: 3px;" @click="copyMatchID(reviewRequest!.match_id)">
                 <template #icon>
                     <n-icon>
                         <CopyOutline />
@@ -78,20 +84,20 @@
             <n-tab-pane display-directive="show" v-if="reviewRequest?.state === 'open'" name="submit_review" tab="Submit Review">
                 <div v-if="store.getters.isLoggedIn" style="display: flex; justify-content: center; flex-direction: column;">
                     <n-input id="review-description" v-model:value="reviewDescription" maxlength="256" style="width: 75%; margin: 1rem auto 0 auto;" show-count placeholder="Describe what player did well and what wrong" type="textarea" />
-                    <n-grid :cols="3" style="margin-top: 2rem; justify-items: center;">
-                        <n-gi style="display: flex; flex-direction: column; justify-content: center;">
+                    <n-grid cols="3" :y-gap="5" item-responsive responsive="screen" style="margin-top: 1rem; justify-items: center;">
+                        <n-gi span="3 s:3 m:1" style="display: flex; flex-direction: column; justify-content: center;">
                             <n-text>
                                 Rate laning stage
                             </n-text>
                             <n-rate v-model:value="reviewRateLaning" style="margin: 3px auto 0 auto;" />
                         </n-gi>
-                        <n-gi style="display: flex; flex-direction: column; justify-content: center;">
+                        <n-gi span="3 s:3 m:1" style="display: flex; flex-direction: column; justify-content: center;">
                             <n-text>
                                 Rate teamfighting
                             </n-text>
                             <n-rate v-model:value="reviewRateTeamFighting" style="margin: 3px auto 0 auto;" />
                         </n-gi>
-                        <n-gi style="display: flex; flex-direction: column; justify-content: center;">
+                        <n-gi span="3 s:3 m:1" style="display: flex; flex-direction: column; justify-content: center;">
                             <n-text>
                                 Rate overall perfomance
                             </n-text>
@@ -131,6 +137,7 @@ import MatchInfo from '../components/Request/MatchInfo.vue';
 import ReviewCard from '../components/ReviewCard.vue';
 import { useStore } from 'vuex';
 import { createReview } from '../api/review.api';
+import amplitude from 'amplitude-js';
 
 defineComponent({
     components: {
@@ -212,8 +219,9 @@ const reviewRateOverall = computed({
 
 const submitReview = async () => {
     store.commit('SET_RR_ID', reviewRequest.value?.id)
-    await createReview(store.state.review, store.state.user.token)
+    await createReview(store.getters.getReview, store.getters.getToken)
     .then(() => {
+        amplitude.getInstance().logEvent('review-submitted');
         const n = notification.create({
           title: 'We got your review!',
           content: `All reviews go through some verification process: author accepts the review and our stuff approves the review.
