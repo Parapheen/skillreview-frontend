@@ -8,7 +8,7 @@ import Request from "./views/Request.vue"
 import AllRequests from "./views/AllRequests.vue"
 import UnAuthorized from "./views/UnAuthorized.vue"
 import Pricing from "./views/Pricing.vue"
-import amplitude from 'amplitude-js'
+import NewReviewer from "./views/NewReviewer.vue"
 
 const routes = [
   {
@@ -51,6 +51,17 @@ const routes = [
   {
     path: '/requests',
     component: AllRequests,
+  },
+  {
+    path: '/reviewers/new',
+    component: NewReviewer,
+    beforeEnter(to: any, from: any, next: any) {
+      if (store.getters.isLoggedIn) {
+        next()
+      } else {
+        next('/unauthorized');
+      }
+    }
   },
   {
     path: '/pricing',
