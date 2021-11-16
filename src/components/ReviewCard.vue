@@ -16,7 +16,7 @@
         <template #header-extra>
             <n-popover trigger="hover">
                 <template #trigger>
-                    <n-tag :size="windowWidth < 1024 ? 'small': ''" v-if="review.state" style="margin-left: 3px;" :type="cardType">{{ review.state?.toUpperCase() }}</n-tag> 
+                    <n-tag :size="windowWidth < 1024 ? 'small': ''" v-if="review.state" style="margin-left: 3px;" :type="cardType">{{ review.state?.toUpperCase() }}</n-tag>
                 </template>
                 <span>{{tagExplanation}}</span>
             </n-popover>
@@ -46,7 +46,7 @@
         </template>
         <template #action>
             <n-button @click="acceptReview" v-if="review.author?.id === user.id && review.state === 'submitted'">Accept Review</n-button>
-            <n-button @click="verifyReview" type="warning" ghost style="margin-left: 1rem;" v-if="user.steam64Id === '76561198032200795' && review.state !=='reviewed'">Verify Review</n-button>
+            <n-button @click="verifyReview" type="warning" ghost style="margin-left: 1rem;" v-if="user.steam64Id === '76561198032200795' && review.state !== 'reviewed'">Verify Review</n-button>
         </template>
         </n-thing>
         </n-spin>
@@ -121,7 +121,7 @@ const acceptReview = async () => {
         review_request_uuid: review.value.review_request_uuid!,
         description: review.value.description,
         state: 'accepted'
-    } 
+    }
     await updateReview(review.value.id!, update, user.value.token)
     .then(() => {
         review.value.state = 'accepted'
@@ -138,7 +138,7 @@ const verifyReview = async () => {
         review_request_uuid: review.value.review_request_uuid!,
         description: review.value.description,
         state: 'reviewed'
-    } 
+    }
     await updateReview(review.value.id!, update, user.value.token)
     .then(() => {
         review.value.state = 'reviewed'

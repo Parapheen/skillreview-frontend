@@ -1,7 +1,7 @@
 <template>
 <section>
     <n-space style="margin-top: 4rem; display: flex; justify-content: space-between;">
-        <n-tag :type="reviewRequest?.state === 'open' ? 'info' : 'error'">{{ reviewRequest?.state?.toUpperCase() }}</n-tag> 
+        <n-tag :type="reviewRequest?.state === 'open' ? 'info' : 'error'">{{ reviewRequest?.state?.toUpperCase() }}</n-tag>
         <n-button v-if="reviewRequest?.state === 'open' && reviewRequest?.author?.id !== store.state.user.id" type="primary" ghost @click="startReview" style="margin: auto; width: 100%;">
             Start Review
         </n-button>
@@ -9,9 +9,10 @@
             @positive-click="closeSubmissions"
             :negative-text="null"
             placement="left"
+            v-if="reviewRequest?.author?.id === store.state.user.id"
         >
             <template #trigger>
-                <n-button v-if="reviewRequest?.author?.id === store.state.user.id" type="error" ghost>
+                <n-button type="error" ghost>
                     Close submissions
                 </n-button>
             </template>
@@ -262,7 +263,7 @@ const closeSubmissions = async () => {
     const update: IReviewRequestUpdate = {
         description: reviewRequest.value?.description!,
         state: 'closed'
-    } 
+    }
     await updateReviewRequest(reviewRequest.value?.id!, update, store.state.user.token)
     .then(() => {
         reviewRequest.value!.state = 'closed'
