@@ -74,7 +74,7 @@
             </n-tab-pane>
             <n-tab-pane name="reviews" tab="Skill Reviews">
               <div v-if="reviewRequest!.reviews!.length > 0" v-for="review in reviewRequest?.reviews" :key="review.id">
-                <ReviewCard :isNavToRequest="false" :review="review" :author="review.author!" />
+                <ReviewCard :requestAuthorId="reviewRequest?.author?.id" :isNavToRequest="false" :review="review" :author="review.author!" />
               </div>
               <n-empty v-else-if="reviewRequest!.reviews?.length == 0" description="No reviews yet">
                 <template #extra>

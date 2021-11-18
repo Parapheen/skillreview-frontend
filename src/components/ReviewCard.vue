@@ -45,7 +45,7 @@
         </n-grid>
         </template>
         <template #action>
-            <n-button @click="acceptReview" v-if="review.author?.id === user.id && review.state === 'submitted'">Accept Review</n-button>
+            <n-button @click="acceptReview" v-if="requestAuthor === user.id && review.state === 'submitted'">Accept Review</n-button>
             <n-button @click="verifyReview" type="warning" ghost style="margin-left: 1rem;" v-if="user.steam64Id === '76561198032200795' && review.state !== 'reviewed'">Verify Review</n-button>
         </template>
         </n-thing>
@@ -85,12 +85,17 @@ const props = defineProps({
     isNavToRequest: {
         type: Boolean,
         required: true
+    },
+    requestAuthorId: {
+        type: String,
+        required: false
     }
 })
 
 const review = computed(() => props.review)
 const cursorType = computed(() => props.isNavToRequest ? 'pointer': 'default')
 const isNavToRequest = computed(() => props.isNavToRequest)
+const requestAuthor = computed(() => props.requestAuthorId)
 
 const router = useRouter()
 const store = useStore()
