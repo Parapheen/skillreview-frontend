@@ -111,13 +111,13 @@
                 </div>
                 <div v-else-if="!isReviewer(user.rank)">
                      <n-result
-                        status="High Skill Place"
+                        status="403"
                         title="You cannot review because of your rating"
                         description="If you still want to become reviewer, please fill the application below."
                         style="margin-top: 2rem;"
                     >
                         <template #footer>
-                        <n-a href="/reviewer/new">Become reviewer</n-a>
+                        <n-a href="/reviewers/new">Become reviewer</n-a>
                         </template>
                     </n-result>
                 </div>
