@@ -1,7 +1,7 @@
 <template>
 <section>
     <n-space style="margin-top: 4rem; display: flex; justify-content: space-between;">
-        <n-tag :type="reviewRequest?.state === 'open' ? 'info' : 'error'">{{ reviewRequest?.state?.toUpperCase() }}</n-tag> 
+        <n-tag :type="reviewRequest?.state === 'open' ? 'info' : 'error'">{{ reviewRequest?.state?.toUpperCase() }}</n-tag>
         <n-button v-if="reviewRequest?.state === 'open' && reviewRequest?.author?.id !== store.state.user.id" type="primary" ghost @click="startReview" style="margin: auto; width: 100%;">
             Start Review
         </n-button>
@@ -72,7 +72,7 @@
                 <MatchInfo :matchID="reviewRequest.match_id" />
             </n-tab-pane>
             <n-tab-pane name="reviews" tab="Skill Reviews">
-              <div v-if="reviewRequest!.reviews!.length > 0" v-for="review in reviewRequest?.reviews">
+              <div v-if="reviewRequest!.reviews!.length > 0" v-for="review in reviewRequest?.reviews" :key="review.id">
                 <ReviewCard :isNavToRequest="false" :review="review" :author="review.author!" />
               </div>
               <n-empty v-else-if="reviewRequest!.reviews?.length == 0" description="No reviews yet">
@@ -82,7 +82,7 @@
               </n-empty>
             </n-tab-pane>
             <n-tab-pane display-directive="show" v-if="reviewRequest?.state === 'open'" name="submit_review" tab="Submit Review">
-                <div v-if="store.getters.isLoggedIn" style="display: flex; justify-content: center; flex-direction: column;">
+                <div v-if="store.getters.isLoggedIn && isReviewer(user.rank)" style="display: flex; justify-content: center; flex-direction: column;">
                     <n-input id="review-description" v-model:value="reviewDescription" maxlength="256" style="width: 75%; margin: 1rem auto 0 auto;" show-count placeholder="Describe what player did well and what wrong" type="textarea" />
                     <n-grid cols="3" :y-gap="5" item-responsive responsive="screen" style="margin-top: 1rem; justify-items: center;">
                         <n-gi span="3 s:3 m:1" style="display: flex; flex-direction: column; justify-content: center;">
@@ -107,6 +107,18 @@
                     <n-button :disabled="reviewDescription === '' || store.getters.reviewRates.includes(null)" @click="submitReview" style="margin: 2rem auto 0 auto;">
                         Submit
                     </n-button>
+                </div>
+                <div v-else-if="!isReviewer(user.rank)">
+                     <n-result
+                        status="High Skill Place"
+                        title="You cannot review because of your rating"
+                        description="If you still want to become reviewer, please fill the application below."
+                        style="margin-top: 2rem;"
+                    >
+                        <template #footer>
+                        <n-a href="/reviewer/new">Become reviewer</n-a>
+                        </template>
+                    </n-result>
                 </div>
                 <div v-else>
                      <n-result
@@ -150,10 +162,18 @@ const route = useRoute()
 const message = useMessage()
 const notification = useNotification()
 const store = useStore()
+const user = computed(() => store.getters.getUser)
 const steamLogin = `https://steamcommunity.com/openid/login?openid.claimed_id=http://specs.openid.net/auth/2.0/identifier_select&openid.identity=http://specs.openid.net/auth/2.0/identifier_select&openid.mode=checkid_setup&openid.ns=http://specs.openid.net/auth/2.0&openid.realm=${window.location.origin}/&openid.return_to=${window.location.origin}/`
 
 const reviewRequest = ref(null) as Ref<IReviewRequest | null>
 const tab = ref("matchInfo")
+
+const isReviewer = (rank: string) => {
+  if (rank === 'Immortal') {
+    return true
+  }
+  return false
+}
 
 onMounted(async () => {
     loading.start()
@@ -262,7 +282,7 @@ const closeSubmissions = async () => {
     const update: IReviewRequestUpdate = {
         description: reviewRequest.value?.description!,
         state: 'closed'
-    } 
+    }
     await updateReviewRequest(reviewRequest.value?.id!, update, store.state.user.token)
     .then(() => {
         reviewRequest.value!.state = 'closed'
