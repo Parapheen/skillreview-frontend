@@ -40,7 +40,7 @@
    <n-tabs type="line" style="margin-top: 1rem;">
        <n-tab-pane name="Requests" tab="Submitted Requests">
           <section style="margin-top: 2rem;">
-              <div v-if="user && user?.review_requests!.length > 0" v-for="request in user?.review_requests">
+              <div v-if="user && user?.review_requests!.length > 0" v-for="request in user?.review_requests" :key="request.id">
                 <ReviewRequestCard @click="amplitude.getInstance().logEvent('request-card-click-from-profile');" active :reviewRequest="request" :author="user" />
               </div>
               <n-empty v-else-if="user && user.review_requests?.length == 0" description="You have no requests yet">
@@ -52,7 +52,7 @@
       </n-tab-pane>
       <n-tab-pane name="Reviews" tab="Your reviews">
           <section style="margin-top: 2rem;">
-              <div v-if="user && user?.reviews!.length > 0" v-for="review in user?.reviews">
+              <div v-if="user && user?.reviews!.length > 0" v-for="review in user?.reviews" :key="review.id">
                 <ReviewCard @click="amplitude.getInstance().logEvent('review-card-click-from-profile');" :isNavToRequest="true" :review="review" :author="user"/>
               </div>
               <n-empty v-else-if="user && isReviewer(user.rank) && user.reviews?.length == 0" description="You have no reviews yet">
@@ -68,7 +68,7 @@
             </n-empty>
           </section>
       </n-tab-pane>
-       <n-tab-pane v-if="user && user.applications.length > 0" name="Applications" tab="Submitted Applications">
+       <n-tab-pane v-if="user && applications.length > 0" name="Applications" tab="Submitted Applications">
           <section style="margin-top: 2rem;">
                <n-data-table
                 style="margin-top: 1rem;"
@@ -104,7 +104,7 @@ const store = useStore()
 const message = useMessage()
 const router = useRouter()
 const loading = useLoadingBar()
-const applications = ref([])
+const applications = ref()
 
 const isReviewer = (rank: string) => {
   if (rank === 'Immortal') {
