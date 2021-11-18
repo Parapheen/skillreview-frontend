@@ -51,7 +51,7 @@ import { useRouter } from 'vue-router'
 const store = useStore()
 const router = useRouter()
 const user = computed(() => store.getters.getUser)
-const formRef = ref(null)
+const formRef = ref()
 const message = useMessage()
 const model = ref({
 	emailValue: "",
