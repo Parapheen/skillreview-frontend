@@ -40,7 +40,7 @@
    <n-tabs type="line" style="margin-top: 1rem;">
        <n-tab-pane name="Requests" tab="Submitted Requests">
           <section style="margin-top: 2rem;">
-              <div v-if="user && user?.review_requests!.length > 0" v-for="request in user?.review_requests">
+              <div v-if="user && user?.review_requests!.length > 0" v-for="request in user?.review_requests" :key="request.id">
                 <ReviewRequestCard @click="amplitude.getInstance().logEvent('request-card-click-from-profile');" active :reviewRequest="request" :author="user" />
               </div>
               <n-empty v-else-if="user && user.review_requests?.length == 0" description="You have no requests yet">
@@ -52,22 +52,38 @@
       </n-tab-pane>
       <n-tab-pane name="Reviews" tab="Your reviews">
           <section style="margin-top: 2rem;">
-              <div v-if="user && user?.reviews!.length > 0" v-for="review in user?.reviews">
+              <div v-if="user && user?.reviews!.length > 0" v-for="review in user?.reviews" :key="review.id">
                 <ReviewCard @click="amplitude.getInstance().logEvent('review-card-click-from-profile');" :isNavToRequest="true" :review="review" :author="user"/>
               </div>
-              <n-empty v-else-if="user && user.reviews?.length == 0" description="You have no reviews yet">
+              <n-empty v-else-if="user && isReviewer(user.rank) && user.reviews?.length == 0" description="You have no reviews yet">
                 <template #extra>
                     <n-button @click="() => router.push('/requests')" size="small">Review somebody's Match</n-button>
                 </template>
             </n-empty>
+              <n-empty v-else-if="user && !isReviewer(user.rank)" description="Your rank is not enough to review others">
+                <template #extra>
+                    <n-p>If you still want to review games and think that you can coach. Please fill the application!</n-p>
+                    <n-button @click="() => router.push('/reviewers/new')" size="small">Submit appliaction</n-button>
+                </template>
+            </n-empty>
+          </section>
+      </n-tab-pane>
+       <n-tab-pane v-if="user && applications.length > 0" name="Applications" tab="Submitted Applications">
+          <section style="margin-top: 2rem;">
+               <n-data-table
+                style="margin-top: 1rem;"
+                :row-key="(row: any) => row.id"
+                :columns="columns"
+                :data="applications"
+              />
           </section>
       </n-tab-pane>
     </n-tabs>
 </template>
 
 <script setup lang="ts">
-import { useLoadingBar, useMessage } from 'naive-ui';
-import { onMounted, ref, Ref, defineComponent } from 'vue';
+import { NTag, useLoadingBar, useMessage } from 'naive-ui';
+import { onMounted, ref, Ref, defineComponent, h, computed } from 'vue';
 import { useStore } from 'vuex';
 import { getUserProfile } from '../api/user.api';
 import { IUser } from '../interfaces/user';
@@ -88,6 +104,14 @@ const store = useStore()
 const message = useMessage()
 const router = useRouter()
 const loading = useLoadingBar()
+const applications = ref()
+
+const isReviewer = (rank: string) => {
+  if (rank === 'Immortal') {
+    return true
+  }
+  return false
+}
 
 onMounted(async () => {
     loading.start()
@@ -100,6 +124,12 @@ onMounted(async () => {
             requests: resp.data.review_requests?.length
         };
         amplitude.getInstance().setUserProperties(userProperties);
+        applications.value = user.value.applications!.map((el: any) => {
+          return {
+            createdAt: new Date(el.createdAt).toISOString().split('T')[0],
+            state: el.state,
+          }
+        })
         store.commit('SET_USER', user.value)
     })
     .catch((err) => {
@@ -107,4 +137,28 @@ onMounted(async () => {
     })
     loading.finish()
 })
+
+const columns = [
+    {
+      title: 'Created at',
+      key: 'createdAt',
+    },
+    {
+      title: 'State',
+      key: 'state',
+      render (row: any) {
+        return h(
+           NTag,
+            {
+              style: {
+                marginRight: '6px'
+              },
+              type: 'info'
+            },
+            {
+              default: () => row.state
+            }
+          )}
+    },
+]
 </script>

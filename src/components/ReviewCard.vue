@@ -106,7 +106,7 @@ const cardType = computed(() => {
     else if (review.value.state === 'reviewed') { return 'success'}
 })
 const tagExplanation = computed(() => {
-    if (review.value.state === 'submitted') { return 'Review is awaiting to be accepted by author and review by stuff'}
+    if (review.value.state === 'submitted') { return 'Review is awaiting to be accepted by author and reviewed by stuff'}
     else if (review.value.state === 'accepted') { return 'Review is accepted and being evaluated by stuff'}
     else if (review.value.state === 'reviewed') { return 'Review has been examined by stuff'}
 })

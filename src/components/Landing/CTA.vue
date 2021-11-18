@@ -1,12 +1,11 @@
 <template>
 <n-space vertical justify="center" style="margin-top: 4rem;">
         <n-divider>
-            <n-h2>Ready to try?</n-h2>
+            <n-h2>Become a Reviewer</n-h2>
         </n-divider>
         <n-card justify="center" align="center">
-            <n-h3 style="text-align: center; margin: 0;">Sign in with Steam</n-h3>
-            <n-p style="text-align: center;">Try it now for free.</n-p>
-            <n-button @click="login" size="large" style="margin-top: 1rem;">Get Started</n-button>
+            <n-h3 style="text-align: center; margin: 0;">Join our close expert community of reviewers and earn gifts.</n-h3>
+            <n-button @click="login" size="large" style="margin-top: 1rem;">Join now</n-button>
         </n-card>
 </n-space>
 </template>
@@ -24,7 +23,7 @@ const login = () => {
         window.location.href = `${import.meta.env.VITE_APP_API_URL}/auth/steam`;
     }
     else {
-        router.push('/requests/new')
+        router.push('/reviewers/new')
     }
 }
 
