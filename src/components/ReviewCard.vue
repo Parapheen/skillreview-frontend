@@ -16,7 +16,7 @@
         <template #header-extra>
             <n-popover trigger="hover">
                 <template #trigger>
-                    <n-tag :size="windowWidth < 1024 ? 'small': ''" v-if="review.state" style="margin-left: 3px;" :type="cardType">{{ review.state?.toUpperCase() }}</n-tag> 
+                    <n-tag :size="windowWidth < 1024 ? 'small': ''" v-if="review.state" style="margin-left: 3px;" :type="cardType">{{ review.state?.toUpperCase() }}</n-tag>
                 </template>
                 <span>{{tagExplanation}}</span>
             </n-popover>
@@ -106,7 +106,7 @@ const cardType = computed(() => {
     else if (review.value.state === 'reviewed') { return 'success'}
 })
 const tagExplanation = computed(() => {
-    if (review.value.state === 'submitted') { return 'Review is awaiting to be accepted by author and review by stuff'}
+    if (review.value.state === 'submitted') { return 'Review is awaiting to be accepted by author and reviewed by stuff'}
     else if (review.value.state === 'accepted') { return 'Review is accepted and being evaluated by stuff'}
     else if (review.value.state === 'reviewed') { return 'Review has been examined by stuff'}
 })
@@ -121,7 +121,7 @@ const acceptReview = async () => {
         review_request_uuid: review.value.review_request_uuid!,
         description: review.value.description,
         state: 'accepted'
-    } 
+    }
     await updateReview(review.value.id!, update, user.value.token)
     .then(() => {
         review.value.state = 'accepted'
@@ -138,7 +138,7 @@ const verifyReview = async () => {
         review_request_uuid: review.value.review_request_uuid!,
         description: review.value.description,
         state: 'reviewed'
-    } 
+    }
     await updateReview(review.value.id!, update, user.value.token)
     .then(() => {
         review.value.state = 'reviewed'

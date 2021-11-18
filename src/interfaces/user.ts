@@ -1,3 +1,4 @@
+import { IApplication } from "./application";
 import { IReview } from "./review";
 import { IReviewRequest } from "./reviewRequest";
 
@@ -13,6 +14,7 @@ export interface IUser {
     token?: string
     review_requests?: Array<IReviewRequest>
     reviews?: Array<IReview>
+    applications?: Array<IApplication>
 }
 
 export interface IUserUpdate {
