@@ -63,7 +63,7 @@
               <n-empty v-else-if="user && !isReviewer(user.rank)" description="Your rank is not enough to review others">
                 <template #extra>
                     <n-p>If you still want to review games and think that you can coach. Please fill the application!</n-p>
-                    <n-button @click="() => router.push('/reviewers/new')" size="small">Submit appliaction</n-button>
+                    <n-button @click="() => router.push('/reviewers/new')" size="small">Submit application</n-button>
                 </template>
             </n-empty>
           </section>
