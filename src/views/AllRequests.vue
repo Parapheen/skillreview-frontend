@@ -1,6 +1,6 @@
 <template>
 <section>
-    <n-space vertical v-if="reviewRequests?.length > 0">
+    <n-space vertical v-if="reviewRequests && reviewRequests.length > 0">
         <div v-for="request in reviewRequests" :key="request.id">
             <ReviewRequestCard @click="amplitude.getInstance().logEvent('request-card-click-from-all-requests');" active :reviewRequest="request" :author="request.author!" />
         </div>
