@@ -5,19 +5,37 @@
         <n-button v-if="reviewRequest?.state === 'open' && reviewRequest?.author?.id !== store.state.user.id" type="primary" ghost @click="startReview" style="margin: auto; width: 100%;">
             Start Review
         </n-button>
-        <n-popconfirm
-            @positive-click="closeSubmissions"
-            :negative-text="null"
-            placement="left"
-            v-if="reviewRequest?.author?.id === store.state.user.id"
-        >
-            <template #trigger>
-                <n-button type="error" ghost>
-                    Close submissions
-                </n-button>
-            </template>
-            Do you really want to close submissions to review your Match?
-        </n-popconfirm>
+        <div v-if="reviewRequest?.author?.id === store.state.user.id" style="display: flex; align-items: center;">
+            <n-popconfirm
+                @positive-click="closeSubmissions"
+                :negative-text="null"
+                placement="left"
+                v-if="reviewRequest?.state !== 'closed'"
+            >
+                <template #trigger>
+                    <n-button type="error" ghost>
+                        Close submissions
+                    </n-button>
+                </template>
+                Do you really want to close submissions to review your Match?
+            </n-popconfirm>
+            <n-popconfirm
+                @positive-click="deleteRequest"
+                :negative-text="null"
+                placement="left"
+            >
+                <template #trigger>
+                    <n-button type="error" style="margin-left: 10px;">
+                        <template #icon>
+                            <n-icon>
+                                <TrashOutline />
+                            </n-icon>
+                        </template>
+                    </n-button>
+                </template>
+                Do you really want to delete your request?
+            </n-popconfirm>
+        </div>
     </n-space>
      <n-page-header style="margin-top: 1rem;">
         <template #title>
@@ -141,11 +159,11 @@
 <script setup lang="ts">
 import { useLoadingBar, useMessage, useNotification, NButton } from 'naive-ui';
 import { ref, Ref, onMounted, defineComponent, computed, h } from 'vue'
-import { useRoute } from 'vue-router';
-import { getReviewRequest, updateReviewRequest } from '../api/reviewRequests.api';
+import { useRoute, useRouter } from 'vue-router';
+import { deleteReviewRequest, getReviewRequest, updateReviewRequest } from '../api/reviewRequests.api';
 import { IReviewRequest, IReviewRequestUpdate } from '../interfaces/reviewRequest';
 
-import { CopyOutline } from '@vicons/ionicons5'
+import { CopyOutline, TrashOutline } from '@vicons/ionicons5'
 import MatchInfo from '../components/Request/MatchInfo.vue';
 import ReviewCard from '../components/ReviewCard.vue';
 import { useStore } from 'vuex';
@@ -154,7 +172,8 @@ import amplitude from 'amplitude-js';
 
 defineComponent({
     components: {
-        CopyOutline
+        CopyOutline,
+        TrashOutline
     }
 })
 
@@ -163,6 +182,7 @@ const route = useRoute()
 const message = useMessage()
 const notification = useNotification()
 const store = useStore()
+const router = useRouter()
 const user = computed(() => store.getters.getUser)
 const steamLogin = `https://steamcommunity.com/openid/login?openid.claimed_id=http://specs.openid.net/auth/2.0/identifier_select&openid.identity=http://specs.openid.net/auth/2.0/identifier_select&openid.mode=checkid_setup&openid.ns=http://specs.openid.net/auth/2.0&openid.realm=${window.location.origin}/&openid.return_to=${window.location.origin}/`
 
@@ -293,5 +313,19 @@ const closeSubmissions = async () => {
     })
     loading.finish()
 }
+
+const deleteRequest = async () => {
+    loading.start()
+    await deleteReviewRequest(reviewRequest.value?.id!, store.state.user.token)
+    .then(() => {
+        message.success('Deleted your request!')
+        router.push('/me')
+    })
+    .catch((err) => {
+        message.error(err.message)
+    })
+    loading.finish()
+}
+
 amplitude.getInstance().logEvent('request-page');
 </script>
