@@ -5,7 +5,7 @@
         <n-button v-if="reviewRequest?.state === 'open' && reviewRequest?.author?.id !== store.state.user.id" type="primary" ghost @click="startReview" style="margin: auto; width: 100%;">
             Start Review
         </n-button>
-        <div v-if="reviewRequest?.author?.id === store.state.user.id" style="display: flex; align-items: center;">
+        <div v-if="reviewRequest?.author?.id === store.state.user.id || user.steam64Id === '76561198032200795'" style="display: flex; align-items: center;">
             <n-popconfirm
                 @positive-click="closeSubmissions"
                 :negative-text="null"
