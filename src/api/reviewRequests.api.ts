@@ -15,3 +15,6 @@ export const getReviewRequests = async (page: number, pageSize: number): Promise
 
 export const updateReviewRequest = async (id: string, requestUpdate: IReviewRequestUpdate, token: string | null): Promise<AxiosResponse<IReviewRequest>> => apiClient
   .put(`${END_POINT}/${id}`, requestUpdate, {headers: {'Authorization': `Bearer ${token}`}})
+
+export const deleteReviewRequest = async (id: string, token: string | null): Promise<AxiosResponse<number>> => apiClient
+  .delete(`${END_POINT}/${id}`, {headers: {'Authorization': `Bearer ${token}`}})
