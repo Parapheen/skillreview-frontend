@@ -19,22 +19,39 @@
                 </template>
                 Do you really want to close submissions to review your Match?
             </n-popconfirm>
-            <n-popconfirm
-                @positive-click="deleteRequest"
-                :negative-text="null"
-                placement="left"
-            >
-                <template #trigger>
-                    <n-button type="error" style="margin-left: 10px;">
-                        <template #icon>
-                            <n-icon>
-                                <TrashOutline />
-                            </n-icon>
-                        </template>
-                    </n-button>
-                </template>
-                Do you really want to delete your request?
-            </n-popconfirm>
+            <div>
+                <n-popconfirm
+                    @positive-click="deleteRequest"
+                    :negative-text="null"
+                    placement="left"
+                >
+                    <template #trigger>
+                        <n-button type="error" style="margin-left: 10px;">
+                            <template #icon>
+                                <n-icon>
+                                    <TrashOutline />
+                                </n-icon>
+                            </template>
+                        </n-button>
+                    </template>
+                    Do you really want to delete your request?
+                </n-popconfirm>
+                <n-button @click="showShareModal = true" type="warning" style="margin-left: 5px;">
+                    <template #icon>
+                        <n-icon>
+                            <ShareSocialOutline />
+                        </n-icon>
+                    </template>
+                </n-button>
+                <n-modal v-model:show="showShareModal" preset="dialog" title="Share your request!">
+                    <template #header>
+                        <div>Share your request</div>
+                    </template>
+                    <template #action>
+                        <ShareButtons />
+                    </template>
+                </n-modal>
+            </div>
         </div>
     </n-space>
      <n-page-header style="margin-top: 1rem;">
@@ -165,8 +182,9 @@ import { useRoute, useRouter } from 'vue-router';
 import { deleteReviewRequest, getReviewRequest, updateReviewRequest } from '../api/reviewRequests.api';
 import { IReviewRequest, IReviewRequestUpdate } from '../interfaces/reviewRequest';
 
-import { CopyOutline, TrashOutline } from '@vicons/ionicons5'
+import { CopyOutline, TrashOutline, ShareSocialOutline } from '@vicons/ionicons5'
 import MatchInfo from '../components/Request/MatchInfo.vue';
+import ShareButtons from '../components/Request/Sharebuttons.vue';
 import ReviewCard from '../components/ReviewCard.vue';
 import { useStore } from 'vuex';
 import { createReview } from '../api/review.api';
@@ -175,7 +193,8 @@ import amplitude from 'amplitude-js';
 defineComponent({
     components: {
         CopyOutline,
-        TrashOutline
+        TrashOutline,
+        ShareSocialOutline
     }
 })
 
@@ -190,6 +209,7 @@ const steamLogin = `https://steamcommunity.com/openid/login?openid.claimed_id=ht
 
 const reviewRequest = ref(null) as Ref<IReviewRequest | null>
 const tab = ref("matchInfo")
+const showShareModal = ref(false)
 
 const isReviewer = (rank: string) => {
   if (rank === 'Immortal') {
