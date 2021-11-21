@@ -184,7 +184,7 @@ import { IReviewRequest, IReviewRequestUpdate } from '../interfaces/reviewReques
 
 import { CopyOutline, TrashOutline, ShareSocialOutline } from '@vicons/ionicons5'
 import MatchInfo from '../components/Request/MatchInfo.vue';
-import ShareButtons from '../components/Request/Sharebuttons.vue';
+import ShareButtons from '../components/Request/ShareButtons.vue';
 import ReviewCard from '../components/ReviewCard.vue';
 import { useStore } from 'vuex';
 import { createReview } from '../api/review.api';
