@@ -193,7 +193,8 @@ import amplitude from 'amplitude-js';
 defineComponent({
     components: {
         CopyOutline,
-        TrashOutline
+        TrashOutline,
+        ShareSocialOutline
     }
 })
 

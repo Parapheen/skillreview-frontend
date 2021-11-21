@@ -19,7 +19,6 @@
         </n-button>
     </a>
 </n-space>
-
 </template>
 
 <script setup lang="ts">
