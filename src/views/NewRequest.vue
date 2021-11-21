@@ -65,13 +65,14 @@ const matches = ref([]) as Ref<IMatch[]>
 
 const matchID = computed(() => store.getters.reviewRequestMatch)
 const matchRates = computed(() => store.getters.reviewRequestRates)
-const reviewDescription = computed(() => store.getters.reviewRequestDescription)
+const requestDescription = computed(() => store.getters.reviewRequestDescription)
+const requestPosition = computed(() => store.getters.reviewRequestPosition)
 
 const nextDisabled = computed(() => {
     if (current.value === 1) {
         return matchID.value === '' ? true : false
     } else if (current.value === 2) {
-        if (!matchRates.value.includes(null) && reviewDescription.value !== '') {
+        if (!matchRates.value.includes(null) && requestDescription.value !== '' && requestPosition.value) {
             return false
         } else { return true }
     } else if (current.value === 3) { return true}

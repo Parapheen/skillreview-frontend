@@ -14,6 +14,9 @@ export enum Mutation {
   SET_SELF_RATE_LANING = 'SET_SELF_RATE_LANING',
   SET_SELF_RATE_TEAMFIGHTING = 'SET_SELF_RATE_TEAMFIGHTING',
   SET_SELF_RATE_OVERALL = 'SET_SELF_RATE_OVERALL',
+  SET_POSITION = 'SET_POSITION',
+  SET_FILTER_STATE = 'SET_FILTER_STATE',
+  SET_FILTER_POSITION = 'SET_FILTER_POSITION',
   SET_REVIEW_RATE_LANING = 'SET_REVIEW_RATE_LANING',
   SET_REVIEW_RATE_TEAMFIGHTING = 'SET_REVIEW_RATE_TEAMFIGHTING',
   SET_REVIEW_RATE_OVERALL = 'SET_REVIEW_RATE_OVERALL',
@@ -28,6 +31,9 @@ export type Mutations<S = State> = {
   [Mutation.SET_MATCHID](state: S, payload: string | null): void,
   [Mutation.SET_HEROPLAYED](state: S, payload: number | null): void,
   [Mutation.SET_DESCRIPTION](state: S, payload: string | null): void,
+  [Mutation.SET_POSITION](state: S, payload: "Hard Support" | "Support" | "Offlane" | "Mid" | "Carry"): void,
+  [Mutation.SET_FILTER_POSITION](state: S, payload: "Hard Support" | "Support" | "Offlane" | "Mid" | "Carry" | undefined): void,
+  [Mutation.SET_FILTER_STATE](state: S, payload: 'open' | 'closed'): void,
   [Mutation.SET_REVIEW_DESCRIPTION](state: S, payload: string | null): void,
   [Mutation.SET_SELF_RATE_LANING](state: S, payload: number | null): void,
   [Mutation.SET_SELF_RATE_TEAMFIGHTING](state: S, payload: number | null): void,
@@ -69,6 +75,15 @@ export const mutations: MutationTree<State> & Mutations = {
   },
   [Mutation.SET_DESCRIPTION](state: State, payload: string) {
 	state.reviewRequest.description = payload
+  },
+  [Mutation.SET_POSITION](state: State, payload: "Hard Support" | "Support" | "Offlane" | "Mid" | "Carry") {
+	state.reviewRequest.position = payload
+  },
+  [Mutation.SET_FILTER_POSITION](state: State, payload: "Hard Support" | "Support" | "Offlane" | "Mid" | "Carry" | undefined) {
+	state.filters.position = payload
+  },
+  [Mutation.SET_FILTER_STATE](state: State, payload: 'open' | 'closed') {
+	state.filters.state = payload
   },
   [Mutation.SET_REVIEW_DESCRIPTION](state: State, payload: string) {
 	state.review.description = payload

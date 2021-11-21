@@ -41,7 +41,9 @@
         <template #title>
             <div class="author" style="display: flex; flex-direction: column;">
                 {{ reviewRequest?.author?.nickname }}
-                <n-text depth="3">{{ reviewRequest?.author_rank }}</n-text>
+                <n-text depth="3">
+                    {{reviewRequest?.position}} | {{ reviewRequest?.author_rank }}
+                </n-text>
             </div>
         </template>
         <n-grid cols="3" item-responsive responsive="screen">

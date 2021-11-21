@@ -10,8 +10,10 @@ export const createReviewRequest = async (request: IReviewRequest, token: string
 export const getReviewRequest = async (id: string): Promise<AxiosResponse<IReviewRequest>> => apiClient
   .get(`${END_POINT}/${id}`)
 
-export const getReviewRequests = async (page: number, pageSize: number): Promise<AxiosResponse<Array<IReviewRequest>>> => apiClient
-  .get(`${END_POINT}?page=${page}&page_size=${pageSize}`)
+export const getReviewRequests = async (page: number, pageSize: number, state: 'open' | 'closed', position?: 'Hard Support' | 'Support' | 'Offlane' | 'Mid' | 'Carry'): Promise<AxiosResponse<Array<IReviewRequest>>> => {
+    if (position) { return apiClient.get(`${END_POINT}?page=${page}&page_size=${pageSize}&state=${state}&position=${position}`) }
+    return apiClient.get(`${END_POINT}?page=${page}&page_size=${pageSize}&state=${state}`)
+}
 
 export const updateReviewRequest = async (id: string, requestUpdate: IReviewRequestUpdate, token: string | null): Promise<AxiosResponse<IReviewRequest>> => apiClient
   .put(`${END_POINT}/${id}`, requestUpdate, {headers: {'Authorization': `Bearer ${token}`}})

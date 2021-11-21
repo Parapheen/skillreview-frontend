@@ -8,9 +8,16 @@
                     </svg>
                 </n-icon>
             </n-a>
-            <div>
+            <div style="display: flex; align-items: center;">
                 <n-button style="margin-right: 1rem;" type="info" ghost @click="router.push('/requests')">Review Skills</n-button>
-                <n-button v-if="!isLoggedIn" @click="login" style="margin-right: 0;">Login with Steam</n-button>
+                <n-button v-if="!isLoggedIn" @click="login" style="margin-right: 0;" icon-placement="right">
+                    Login with Steam
+                    <template #icon>
+                        <n-icon>
+                            <LogoSteam />
+                        </n-icon>
+                    </template>
+                </n-button>
                 <n-dropdown v-else trigger="click" :options="options">
                     <n-badge :value="user.plan" :type="user.plan === 'basic' ? 'info' : 'success'">
                         <n-avatar
@@ -40,6 +47,7 @@ import {
   FingerPrint as FingerPrint,
   AddOutline as Add,
   ShieldCheckmarkSharp as ShieldCheckmarkSharp,
+  LogoSteam,
 } from '@vicons/ionicons5'
 import { useRouter, RouterLink } from 'vue-router';
 import { IUserUpdate } from '../interfaces/user';
