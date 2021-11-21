@@ -11,13 +11,17 @@
         <template #header> 
             <div class="author" style="display: flex; flex-direction: column;">
                 {{ author?.nickname }}
-                <n-text depth="3">{{ author?.rank }}</n-text>
+                <div style="display: flex;">
+                    <n-text depth="3">
+                        {{ reviewRequest.position }} | {{ author?.rank }}
+                    </n-text>
+                </div>
             </div>
         </template>
         <template #header-extra style="display: flex;">
-            <n-tag v-if="reviewRequest.state" style="margin-left: 3px;" :type="reviewRequest.state === 'open' ? 'info' : 'error'">{{ reviewRequest.state?.toUpperCase() }}</n-tag> 
+            <n-tag v-if="reviewRequest.state" style="margin-left: 3px;" :type="reviewRequest.state === 'open' ? 'info' : 'error'">{{ reviewRequest.state?.toUpperCase() }}</n-tag>
         </template>
-        <template #description> Reviews: {{reviewRequest.reviews?.length}} </template>
+        <template #description v-if="reviewRequest.reviews"> Reviews: {{reviewRequest.reviews?.length}} </template>
         {{ reviewRequest.description }}
         <template #footer>
         <n-grid cols="3" item-responsive responsive="screen">

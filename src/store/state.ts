@@ -1,6 +1,6 @@
 import { IMinimalMatch } from "../interfaces/match";
 import { IReview } from "../interfaces/review";
-import { IReviewRequest } from "../interfaces/reviewRequest";
+import { IFilters, IReviewRequest } from "../interfaces/reviewRequest";
 import { IUser } from "../interfaces/user";
 
 export interface State {
@@ -9,6 +9,7 @@ export interface State {
   reviewRequest: IReviewRequest
   matchInfo: IMinimalMatch | null
   review: IReview
+  filters: IFilters
 }
 
 export const state: State = {
@@ -32,6 +33,7 @@ export const state: State = {
       self_rate_overall: null,
       hero_played: 0,
       author_rank: "",
+      position: undefined,
   },
   review: {
       description: "",
@@ -41,6 +43,10 @@ export const state: State = {
       rate_overall: null,
       state: "submitted"
   },
-  matchInfo: null
+  matchInfo: null,
+  filters: {
+      position: undefined,
+      state: 'open',
+  }
 }
 

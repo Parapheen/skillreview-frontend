@@ -1,24 +1,25 @@
 <template>
     <section style="margin: 2rem auto 0 auto; display: flex; justify-content: center; flex-direction: column;">
-        <n-input v-model:value="reviewDescription" maxlength="256" style="width: 75%; margin: 1rem auto 0 auto;" show-count placeholder="Describe what went well and what wrong" type="textarea" />
+        <n-select placeholder="Please select position you played" v-model:value="position" :options="options" style="width: 75%; margin: 1rem auto 0 auto;" />
+        <n-input v-model:value="requestDescription" maxlength="256" style="width: 75%; margin: 1rem auto 0 auto;" show-count placeholder="Describe what went well and what wrong" type="textarea" />
         <n-grid :cols="3" style="margin-top: 2rem; justify-items: center;">
             <n-gi style="display: flex; flex-direction: column; justify-content: center;">
                 <n-text>
                     Rate your laning stage
                 </n-text>
-                <n-rate v-model:value="reviewRateLaning" style="margin: 3px auto 0 auto;" />
+                <n-rate v-model:value="requestRateLaning" style="margin: 3px auto 0 auto;" />
             </n-gi>
             <n-gi style="display: flex; flex-direction: column; justify-content: center;">
                 <n-text>
                     Rate your teamfighting
                 </n-text>
-                <n-rate v-model:value="reviewRateTeamFighting" style="margin: 3px auto 0 auto;" />
+                <n-rate v-model:value="requestRateTeamFighting" style="margin: 3px auto 0 auto;" />
             </n-gi>
             <n-gi style="display: flex; flex-direction: column; justify-content: center;">
                 <n-text>
                     Rate your overall perfomance
                 </n-text>
-                <n-rate v-model:value="reviewRateOverall" style="margin: 3px auto 0 auto;" />
+                <n-rate v-model:value="requestRateOverall" style="margin: 3px auto 0 auto;" />
             </n-gi>
         </n-grid>
     </section>
@@ -30,7 +31,30 @@ import { useStore } from 'vuex'
 
 const store = useStore()
 
-const reviewDescription = computed({
+const options = [
+    {
+        label: "Hard Support",
+        value: 'Hard Support',
+    },
+    {
+        label: "Support",
+        value: 'Support',
+    },
+    {
+        label: "Offlane",
+        value: 'Offlane',
+    },
+    {
+        label: "Mid",
+        value: 'Mid',
+    },
+    {
+        label: "Carry",
+        value: 'Carry',
+    },
+]
+
+const requestDescription = computed({
     get () {
       return store.getters.reviewRequestDescription
     },
@@ -39,7 +63,7 @@ const reviewDescription = computed({
     }
 })
 
-const reviewRateLaning = computed({
+const requestRateLaning = computed({
     get () {
       return store.getters.reviewRequestRateLaning
     },
@@ -48,7 +72,7 @@ const reviewRateLaning = computed({
     }
 })
 
-const reviewRateTeamFighting = computed({
+const requestRateTeamFighting = computed({
     get () {
       return store.getters.reviewRequestRateTeamFighting
     },
@@ -57,12 +81,21 @@ const reviewRateTeamFighting = computed({
     }
 })
 
-const reviewRateOverall = computed({
+const requestRateOverall = computed({
     get () {
       return store.getters.reviewRequestRateOverall
     },
     set (value) {
       store.commit('SET_SELF_RATE_OVERALL', value)
+    }
+})
+
+const position = computed({
+    get () {
+      return store.getters.reviewRequestPosition
+    },
+    set (value) {
+      store.commit('SET_POSITION', value)
     }
 })
 

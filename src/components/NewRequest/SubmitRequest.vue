@@ -24,11 +24,12 @@ const reviewRequest: IReviewRequest = {
     match_id: store.getters.reviewRequestMatch,
     description: store.getters.reviewRequestDescription,
     hero_played: store.getters.reviewRequestHeroPlayed,
-    author_uid: store.state.user.id,
+    author_uid: store.getters.getUser.id,
     self_rate_laning: store.getters.reviewRequestRateLaning,
     self_rate_teamfights: store.getters.reviewRequestRateTeamFighting,
     self_rate_overall: store.getters.reviewRequestRateOverall,
     author_rank: store.getters.getUserRank,
+    position: store.getters.reviewRequestPosition,
 }
 
 const submitReviewRequest = async () => {

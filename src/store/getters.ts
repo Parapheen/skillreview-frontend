@@ -1,5 +1,6 @@
 import { GetterTree } from 'vuex'
 import { IReview } from '../interfaces/review'
+import { IFilters } from '../interfaces/reviewRequest'
 import { IUser } from '../interfaces/user'
 import { State } from './state'
 
@@ -11,6 +12,7 @@ export type Getters = {
   reviewRequestRateLaning(state: State): number | null,
   reviewRequestRateTeamFighting(state: State): number | null,
   reviewRequestRateOverall(state: State): number | null,
+  reviewRequestPosition(state: State): "Hard Support" | "Support" | "Offlane" | "Mid" | "Carry" | undefined,
   reviewRequestRates(state: State): Array<number | null>,
   reviewRates(state: State): Array<number | null>,
   reviewRequestHeroPlayed(state: State): number,
@@ -18,6 +20,7 @@ export type Getters = {
   getUserRank(state: State): string,
   getUser(state: State): IUser | null,
   getToken(state: State): string | null,
+  requestsFilters(state: State): IFilters,
 }
 
 export const getters: GetterTree<State, State> & Getters = {
@@ -44,6 +47,12 @@ export const getters: GetterTree<State, State> & Getters = {
   },
   reviewRequestRateOverall(state: State) {
       return state.reviewRequest.self_rate_overall
+  },
+  reviewRequestPosition(state: State) {
+      return state.reviewRequest.position
+  },
+  requestsFilters(state: State) {
+      return state.filters
   },
   reviewRequestRates(state: State) {
       return [
