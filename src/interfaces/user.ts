@@ -15,6 +15,7 @@ export interface IUser {
     review_requests?: Array<IReviewRequest>
     reviews?: Array<IReview>
     applications?: Array<IApplication>
+    verified_reviewer: boolean
 }
 
 export interface IUserUpdate {

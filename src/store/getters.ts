@@ -7,6 +7,7 @@ import { State } from './state'
 export type Getters = {
   isDebug(state: State): boolean,
   isLoggedIn(state: State): boolean,
+  isVerifiedReviwer(state: State): boolean,
   reviewRequestMatch(state: State): string,
   reviewRequestDescription(state: State): string,
   reviewRequestRateLaning(state: State): number | null,
@@ -29,6 +30,9 @@ export const getters: GetterTree<State, State> & Getters = {
   },
   isLoggedIn(state) {
       return state.user.token ? true : false
+  },
+  isVerifiedReviwer(state) {
+      return state.user.verified_reviewer
   },
   reviewRequestMatch(state: State) {
       return state.reviewRequest.match_id

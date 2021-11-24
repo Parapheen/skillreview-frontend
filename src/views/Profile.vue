@@ -83,7 +83,7 @@
 
 <script setup lang="ts">
 import { NTag, useLoadingBar, useMessage } from 'naive-ui';
-import { onMounted, ref, Ref, defineComponent, h, computed } from 'vue';
+import { onMounted, ref, Ref, defineComponent, h } from 'vue';
 import { useStore } from 'vuex';
 import { getUserProfile } from '../api/user.api';
 import { IUser } from '../interfaces/user';
@@ -107,7 +107,7 @@ const loading = useLoadingBar()
 const applications = ref()
 
 const isReviewer = (rank: string) => {
-  if (rank === 'Immortal') {
+  if (rank === 'Immortal' || store.getters.isVerifiedReviwer) {
     return true
   }
   return false

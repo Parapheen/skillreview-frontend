@@ -212,7 +212,7 @@ const tab = ref("matchInfo")
 const showShareModal = ref(false)
 
 const isReviewer = (rank: string) => {
-  if (rank === 'Immortal') {
+  if (rank === 'Immortal' || store.getters.isVerifiedReviwer) {
     return true
   }
   return false

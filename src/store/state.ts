@@ -23,6 +23,7 @@ export const state: State = {
       steam64Id: "",
       rank: "",
       plan: "basic",
+      verified_reviewer: false
   },
   reviewRequest: {
       description: "",
