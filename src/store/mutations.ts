@@ -53,6 +53,7 @@ export const mutations: MutationTree<State> & Mutations = {
         steam32Id: payload.steam32Id,
         nickname: payload.nickname,
         rank: payload.rank,
+        verified_reviewer: payload.verified_reviewer,
         plan: payload.plan,
         token: payload.token,
     }
