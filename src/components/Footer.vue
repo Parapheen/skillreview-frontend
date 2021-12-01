@@ -15,6 +15,7 @@
     
         </div>
     </div>
+    <n-p>Built by independent developer </n-p>
     <n-p>&copy; {{ new Date().getFullYear() }} SkillReview. All rights reserved.</n-p>
 </footer>
 </template>

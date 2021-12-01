@@ -1,6 +1,7 @@
 <template>
-<n-space vertical style="margin-top: 4rem;">
+<n-space vertical style="margin: 8rem auto 0 auto; max-width: 1128px;">
     <Jumbo/>
+    <Features />
     <Steps/>
     <CTA/>
 </n-space>
@@ -11,6 +12,7 @@ import { defineComponent } from '@vue/runtime-core';
 import Steps from '../components/Landing/Steps.vue';
 import Jumbo from '../components/Landing/Jumbo.vue';
 import CTA from '../components/Landing/CTA.vue';
+import Features from '../components/Landing/Features.vue';
 import amplitude from 'amplitude-js';
 
 defineComponent({

@@ -9,9 +9,9 @@
                 </n-icon>
             </n-a>
             <div style="display: flex; align-items: center;">
-                <n-button style="margin-right: 1rem;" type="info" ghost @click="router.push('/requests')">Review Skills</n-button>
-                <n-button v-if="!isLoggedIn" @click="login" style="margin-right: 0;" icon-placement="right">
-                    Login with Steam
+                <n-button style="margin-right: 1rem;" type="info" secondary @click="router.push('/requests')">Review Skills</n-button>
+                <n-button v-if="!isLoggedIn" @click="login" style="margin-right: 0;" icon-placement="left">
+                    Login
                     <template #icon>
                         <n-icon>
                             <LogoSteam />

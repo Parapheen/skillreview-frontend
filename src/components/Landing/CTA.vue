@@ -1,19 +1,36 @@
 <template>
-<n-space vertical justify="center" style="margin-top: 4rem;">
-        <n-divider>
-            <n-h2>Become a Reviewer</n-h2>
-        </n-divider>
-        <n-card justify="center" align="center">
-            <n-h3 style="text-align: center; margin: 0;">Join our close expert community of reviewers and earn gifts.</n-h3>
-            <n-button @click="login" size="large" style="margin-top: 1rem;">Join now</n-button>
-        </n-card>
-</n-space>
+<section>
+    <n-space vertical justify="center" style="margin-top: 6rem;">
+            <n-card class='cta' style="padding: 1rem; background-color: rgba(255, 255, 255, 0.06); margin: 4rem auto 2rem auto;">
+                <div class="content" style="display: flex; justify-content: space-between; align-items: center; flex-wrap: wrap;">
+                    <n-h2 style="text-align: center; margin-bottom: 0;">Ready to review some matches?</n-h2>
+                    <n-button strong secondary type="primary" @click="login" size="large" icon-placement="right">
+                        Get started
+                        <template #icon>
+                            <n-icon>
+                                <ArrowForwardSharp />
+                            </n-icon>
+                        </template>
+                    </n-button>
+                </div>
+            </n-card>
+    </n-space>
+</section>
 </template>
 
 <script setup lang="ts">
-import { computed } from 'vue';
+import { computed, defineComponent } from 'vue';
 import { useStore } from 'vuex';
 import router from '/@/router';
+import {
+  ArrowForwardSharp,
+} from '@vicons/ionicons5'
+
+defineComponent({
+  components: {
+    ArrowForwardSharp,
+  }
+})
 
 const store = useStore()
 const isLoggedIn = computed(() => store.getters.isLoggedIn)
@@ -28,3 +45,22 @@ const login = () => {
 }
 
 </script>
+
+<style scoped>
+
+.cta {
+    box-shadow: #63e2b7 0px 1px 9px 1px;
+    width: 75%;
+}
+
+@media only screen and (max-width: 600px) {
+
+  .cta {
+        width: 90%;
+    }
+  .cta button {
+      margin: 2rem auto 0 auto;
+  }
+}
+
+</style>
