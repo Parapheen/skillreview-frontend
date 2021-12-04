@@ -19,7 +19,7 @@
         </n-grid-item>
         <n-grid-item>
             <div style="display: flex; justify-content: center;">
-                <n-image width="500" :src="JumboIcon" preview-disabled />
+                <img :src="JumboIcon" preview-disabled style="max-width: 100%; height: auto"/>
             </div>
         </n-grid-item>
     </n-grid>
