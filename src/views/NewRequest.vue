@@ -36,7 +36,7 @@
 </template>
 
 <script setup lang="ts">
-import { ref, Ref, defineComponent, onMounted, computed } from 'vue';
+import { ref, Ref, defineComponent, onMounted, computed, watch } from 'vue';
 import { useLoadingBar, useMessage } from 'naive-ui'
 import { useStore } from 'vuex';
 import MatchPick from '../components/NewRequest/MatchPick.vue';
@@ -67,6 +67,10 @@ const matchID = computed(() => store.getters.reviewRequestMatch)
 const matchRates = computed(() => store.getters.reviewRequestRates)
 const requestDescription = computed(() => store.getters.reviewRequestDescription)
 const requestPosition = computed(() => store.getters.reviewRequestPosition)
+
+watch(matchID, () => {
+    next();
+})
 
 const nextDisabled = computed(() => {
     if (current.value === 1) {

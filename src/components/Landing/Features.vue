@@ -1,5 +1,5 @@
 <template>
-<section style="margin-top: 6rem;">
+<section style="margin-top: 4rem;">
     <n-divider />
     <n-grid cols="1 s:1 m:3" responsive="screen" style="margin: 4rem auto 0 auto;">
         <n-grid-item v-for="feature in features">
@@ -9,7 +9,7 @@
                 </template>
                 <n-h2 style="margin-bottom: 0;">{{feature.name}}</n-h2>
                 <template #footer>
-                    <n-p>{{feature.description}}</n-p>
+                    <n-p depth="3">{{feature.description}}</n-p>
                 </template>
             </n-card>
         </n-grid-item>

@@ -92,9 +92,7 @@
         </template>
         <template #avatar>
             <n-avatar>
-                <n-icon round>
-                      <i :class="'d2mh hero-' + reviewRequest?.hero_played.toString()"/>
-                </n-icon>
+                    <i :class="'d2mh hero-' + reviewRequest?.hero_played.toString()"/>
             </n-avatar>
         </template>
         <template #footer>

@@ -12,14 +12,14 @@
                         We only support Dota 2 for now.
                     </n-p>
                 </n-h4>
-                <n-button @click="login" size="large" type="primary">
+                <n-button strong @click="login" size="large" type="primary">
                     Start now
                 </n-button>
             </n-space>
         </n-grid-item>
         <n-grid-item>
             <div style="display: flex; justify-content: center;">
-                <img :src="JumboIcon" preview-disabled style="max-width: 100%; height: auto"/>
+                <img :src="JumboIcon" preview-disabled style="max-width: 100%; height: auto" alt="jumbo"/>
             </div>
         </n-grid-item>
     </n-grid>

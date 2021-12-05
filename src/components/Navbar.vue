@@ -10,11 +10,11 @@
             </n-a>
             <div style="display: flex; align-items: center;">
                 <n-button style="margin-right: 1rem;" type="info" secondary @click="router.push('/requests')">Review Skills</n-button>
-                <n-button v-if="!isLoggedIn" @click="login" style="margin-right: 0;" icon-placement="left">
+                <n-button v-if="!isLoggedIn" @click="login" secondary style="margin-right: 0;" icon-placement="left">
                     Login
                     <template #icon>
                         <n-icon>
-                            <LogoSteam />
+                            <svg height="18" viewBox="0 0 24 24" class="sc-bdfBwQ bEROaC"><path d="M23.938 12c0 6.595-5.353 11.938-11.957 11.938A11.95 11.95 0 0 1 .476 15.254l4.583 1.892a3.382 3.382 0 0 0 6.696-.823l4.067-2.898a4.512 4.512 0 0 0 4.611-4.5 4.511 4.511 0 0 0-9.02 0v.057l-2.85 4.125a3.37 3.37 0 0 0-2.094.583L.062 11.042C.553 4.895 5.7.062 11.981.062 18.585.062 23.938 5.405 23.938 12zm-16.38 6.176l-1.469-.607a2.541 2.541 0 0 0 1.31 1.242 2.544 2.544 0 0 0 3.32-1.367 2.51 2.51 0 0 0 .005-1.94A2.53 2.53 0 0 0 7.48 14.1l1.516.625a1.862 1.862 0 0 1 1.006 2.44 1.87 1.87 0 0 1-2.445 1.012zm8.365-6.253c-1.656 0-3.004-1.348-3.004-2.999s1.348-2.999 3.004-2.999 3.004 1.348 3.004 3-1.343 2.998-3.004 2.998zm.005-.75a2.254 2.254 0 0 0 0-4.505 2.257 2.257 0 0 0-2.258 2.251 2.263 2.263 0 0 0 2.258 2.253z"></path></svg>
                         </n-icon>
                     </template>
                 </n-button>
